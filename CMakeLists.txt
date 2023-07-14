@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5.1)
 
-project(scaling_and_alpha_blending LANGUAGES CXX)
+project(ScalingAndAlphaBlending LANGUAGES CXX)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake_helpers/helpers.cmake)
 
@@ -22,7 +22,9 @@ find_package(${SDL2_image_name} REQUIRED)
 find_package(${SDL2_ttf_name} REQUIRED)
 find_package(${SDL2_mixer_name} REQUIRED)
 
-set(_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}) 
+set(_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src) 
+
+file(COPY resources DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 
 add_executable(
     ${PROJECT_NAME} 
@@ -67,7 +69,7 @@ add_executable(
         ${_BASE_DIR}/main.cpp
 )
 
-set_target_cpp_standard(${PROJECT_NAME} 17)
+set_target_cpp_standard(${PROJECT_NAME} 20)
 enable_target_warnings(${PROJECT_NAME})
 
 target_include_directories(
