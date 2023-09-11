@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5.1)
 
-project(ScalingAndAlphaBlending LANGUAGES CXX)
+project(text_and_colors LANGUAGES CXX)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake_helpers/helpers.cmake)
 
@@ -39,54 +39,21 @@ add_executable(
         ${_BASE_DIR}/game/game.h
         ${_BASE_DIR}/game/game.cpp
         ${_BASE_DIR}/game/config/GameConfig.h
-
-        ${_BASE_DIR}/sdl_utils/SDLLoader.h
-        ${_BASE_DIR}/sdl_utils/SDLLoader.cpp
-        ${_BASE_DIR}/sdl_utils/MonitorWindow.h
-        ${_BASE_DIR}/sdl_utils/MonitorWindow.cpp
-        ${_BASE_DIR}/sdl_utils/config/MonitorWindowCfg.h
-        ${_BASE_DIR}/sdl_utils/config/ImageContainerCfg.h
-        ${_BASE_DIR}/sdl_utils/containers/ImageContainer.h
-        ${_BASE_DIR}/sdl_utils/containers/ImageContainer.cpp
-        ${_BASE_DIR}/sdl_utils/Texture.h
-        ${_BASE_DIR}/sdl_utils/Texture.cpp
-        ${_BASE_DIR}/sdl_utils/InputEvent.h
-        ${_BASE_DIR}/sdl_utils/InputEvent.cpp
-        ${_BASE_DIR}/sdl_utils/Renderer.h
-        ${_BASE_DIR}/sdl_utils/Renderer.cpp
-
-        ${_BASE_DIR}/utils/drawing/Point.h
-        ${_BASE_DIR}/utils/drawing/Point.cpp
-        ${_BASE_DIR}/utils/drawing/Rectangle.h
-        ${_BASE_DIR}/utils/drawing/Rectangle.cpp
-        ${_BASE_DIR}/utils/drawing/DrawParams.h
-        ${_BASE_DIR}/utils/input/EventDefines.h
-        ${_BASE_DIR}/utils/thread/ThreadUtils.h
-        ${_BASE_DIR}/utils/thread/ThreadUtils.cpp
-        ${_BASE_DIR}/utils/time/time.h
-        ${_BASE_DIR}/utils/time/time.cpp
         
         ${_BASE_DIR}/main.cpp
 )
-
-set_target_cpp_standard(${PROJECT_NAME} 20)
-enable_target_warnings(${PROJECT_NAME})
 
 target_include_directories(
     ${PROJECT_NAME}
         PRIVATE 
             ${_BASE_DIR}
-            ${SDL2_INCLUDE_DIR}
-            ${SDL2_IMAGE_INCLUDE_DIR}
-            ${SDL2_TTF_INCLUDE_DIR}
-            ${SDL2_MIXER_INCLUDE_DIR}
 )
 
 target_link_libraries(
     ${PROJECT_NAME}
         PRIVATE 
-            ${SDL2_LIBRARY}
-            ${SDL2_IMAGE_LIBRARY}
-            ${SDL2_TTF_LIBRARY}
-            ${SDL2_MIXER_LIBRARY}
+            sdl_utils
 )
+
+add_subdirectory(src/utils)
+add_subdirectory(src/sdl_utils)
