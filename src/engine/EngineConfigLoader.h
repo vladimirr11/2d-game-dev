@@ -7,12 +7,11 @@
 // Own includes
 #include "engine/config/EngineConfig.h"
 
-class EngineConfigLoader {
-public:
+struct EngineConfigLoader {
     EngineConfigLoader() = delete;
     ~EngineConfigLoader() = default;
 
     static EngineConfig loadConfig();
 };
 
-#endif // !ENGINECONFIGLOADER_H
+#endif  // !ENGINECONFIGLOADER_H

@@ -10,7 +10,10 @@
 #include "sdl_utils/Renderer.h"
 #include "sdl_utils/MonitorWindow.h"
 #include "sdl_utils/containers/ImageContainer.h"
-#include "engine/config/EngineConfig.h"
+#include "sdl_utils/containers/TextContainer.h"
+
+// Forward declarations
+struct EngineConfig;
 
 class Engine {
 public:
@@ -23,14 +26,15 @@ private:
     void drawFrame();
     bool processFrame();
     void handleEvent();
-    void limitFPS(const int64_t microsecondsToSleepFor);
+    void limitFPS(int64_t microsecondsToSleepFor);
 
 private:
     MonitorWindow _window;
-    Renderer _renderer;
     InputEvent _event;
+    Renderer _renderer;
     ImageContainer _imgContainer;
+    TextContainer _textContainer;
     Game _game;
 };
 
-#endif // !ENGINE_H
+#endif  // !ENGINE_H

@@ -7,9 +7,9 @@
 #define SDL_MAIN_HANDLED
 
 // Own includes
-#include "engine/Engine.h"
-#include "engine/EngineConfigLoader.h"
 #include "sdl_utils/SDLLoader.h"
+#include "engine/EngineConfigLoader.h"
+#include "engine/Engine.h"
 
 static int32_t runApplication() {
     Engine engine;
