@@ -10,7 +10,6 @@
 
 // Own includes
 #include "sdl_utils/Texture.h"
-#include "utils/drawing/DrawParams.h"
 
 int32_t Renderer::init(SDL_Window* window) {
     if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
@@ -50,8 +49,6 @@ void Renderer::clearScreen() {
     }
 }
 
-void Renderer::finishFrame() { SDL_RenderPresent(_sdlRenderer); }
-
 void Renderer::renderTexture(SDL_Texture* texture, const DrawParams& drawParams) {
     if (drawParams.widgetType == WidgetType::IMAGE) {
         drawImage(drawParams, texture);
@@ -61,6 +58,23 @@ void Renderer::renderTexture(SDL_Texture* texture, const DrawParams& drawParams)
         std::cerr << "Error, recieved unsupported WidgetType: "
                   << static_cast<int32_t>(drawParams.widgetType) << " for resourceId - "
                   << drawParams.rsrcId << std::endl;
+    }
+}
+
+void Renderer::finishFrame() { SDL_RenderPresent(_sdlRenderer); }
+
+void Renderer::setWidgetBlendMode(SDL_Texture* texture, BlendMode blendMode) {
+    // enable alpha blending for all existing textures
+    if (Texture::setBlendModeTexture(texture, blendMode) != EXIT_SUCCESS) {
+        std::cerr << "Texture::setBlendModeTexture() in Renderer::setWidgetBlendMode() failed!"
+                  << std::endl;
+    }
+}
+
+void Renderer::setWidgetOpacity(SDL_Texture* texture, int32_t opacity) {
+    if (Texture::setAlphaTexture(texture, opacity) != EXIT_SUCCESS) {
+        std::cerr << "Texture::setAlphaTexture() in Renderer::setWidgetOpacity() failed!"
+                  << std::endl;
     }
 }
 
@@ -98,11 +112,6 @@ void Renderer::drawText(const DrawParams& drawParams, SDL_Texture* texture) {
                                .y = drawParams.pos.y,
                                .w = drawParams.width,
                                .h = drawParams.height};
-
-    if (Texture::setAlphaTexture(texture, drawParams.opacity) != EXIT_SUCCESS) {
-        std::cerr << "Texture::setAlphaTexture() in Renderer::drawText() failed for resourceId: "
-                  << drawParams.rsrcId << std::endl;
-    }
 
     const int32_t errCode = SDL_RenderCopy(_sdlRenderer, texture, nullptr, &destRect);
     if (errCode != EXIT_SUCCESS) {

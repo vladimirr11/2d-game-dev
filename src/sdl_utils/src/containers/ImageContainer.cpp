@@ -7,9 +7,6 @@
 // Own includes
 #include "sdl_utils/Texture.h"
 
-// TODO remove
-#include "utils/drawing/DrawParams.h"
-
 int32_t ImageContainer::init(const ImageContainerConfig& cfg) {
     for (const auto& pair : cfg.imageConfigs) {
         const int32_t resId = pair.first;
@@ -58,14 +55,6 @@ int32_t ImageContainer::loadSingleResource(const ImageConfig& resourceCfg, int32
 
     if (Texture::createTextureFromFile(resourceCfg.location, texture) != EXIT_SUCCESS) {
         std::cerr << "Texture::createTextureFromFile failed for file: " << resourceCfg.location
-                  << std::endl;
-        return EXIT_FAILURE;
-    }
-
-    // TODO remove me
-    // temporary enable alpha blending for all existing textures
-    if (Texture::setBlendModeTexture(texture, BlendMode::BLEND) != EXIT_SUCCESS) {
-        std::cerr << "Texture::setBlendModeTexture() failed for file: " << resourceCfg.location
                   << std::endl;
         return EXIT_FAILURE;
     }

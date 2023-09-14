@@ -1,14 +1,13 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-// C++ system includes
-#include <cstdint>
+// Own includes
+#include "utils/drawing/DrawParams.h"
 
 // Forward declarations
 struct SDL_Renderer;
 struct SDL_Texture;
 struct SDL_Window;
-struct DrawParams;
 
 class Renderer {
 public:
@@ -23,8 +22,11 @@ public:
     int32_t init(SDL_Window* window);
     void deinit();
     void clearScreen();
-    void finishFrame();
     void renderTexture(SDL_Texture* texture, const DrawParams& drawParams);
+    void finishFrame();
+
+    void setWidgetBlendMode(SDL_Texture* texture, BlendMode blendMode);
+    void setWidgetOpacity(SDL_Texture* texture, int32_t opacity);
 
 private:
     void drawImage(const DrawParams& drawParams, SDL_Texture* texture);

@@ -22,3 +22,10 @@ Color::Color(const uint8_t red, const uint8_t green, const uint8_t blue, const u
     rgba.b = blue;
     rgba.a = alpha;
 }
+
+bool Color::operator==(const Color& other) const {
+    return (rgba.a == other.rgba.a) && (rgba.b == other.rgba.b) && (rgba.g == other.rgba.g) &&
+           (rgba.r == other.rgba.r);
+}
+
+bool Color::operator!=(const Color& other) const { return !Color::operator==(other); }

@@ -1,21 +1,18 @@
 // C++ system includes
-#include <cstdint>
-#include <cstdlib>
 #include <iostream>
-#include <string>
 
 #define SDL_MAIN_HANDLED
 
 // Own includes
 #include "sdl_utils/SDLLoader.h"
-#include "engine/EngineConfigLoader.h"
 #include "engine/Engine.h"
+#include "engine/EngineConfigLoader.h"
 
 static int32_t runApplication() {
     Engine engine;
 
     if (engine.init(EngineConfigLoader::loadConfig()) != EXIT_SUCCESS) {
-        std::cerr << "Engine init() failed." << std::endl;
+        std::cerr << "Engine::init() failed." << std::endl;
         return EXIT_FAILURE;
     }
 

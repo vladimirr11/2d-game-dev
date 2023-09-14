@@ -1,20 +1,13 @@
 #ifndef ENGINECONFIG_H
 #define ENGINECONFIG_H
 
-// C++ system includes
-#include <cstdint>
-
 // Own includes
-#include "sdl_utils/config/ImageContainerCfg.h"
-#include "sdl_utils/config/MonitorWindowCfg.h"
-#include "sdl_utils/config/TextContainerCfg.h"
 #include "game/config/GameConfig.h"
+#include "manager_utils/managers/config/ManagerHandlerCfg.h"
 
 struct EngineConfig {
-    MonitorWindowCfg windowConfig;
-    ImageContainerConfig imageContainerCfg;
-    TextContainerCfg textContainerCfg;
+    ManagerHandlerCfg managerHandlerCfg;
     GameConfig gameCfg;
 };
 
-#endif  // !ENGINECONFIG_H
+#endif // !ENGINECONFIG_H

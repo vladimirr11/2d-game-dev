@@ -3,8 +3,6 @@
 
 // C++ system includes
 #include <cstdint>
-#include <unordered_map>
-#include <string>
 
 struct GameConfig {
     int32_t layer2ResourceId;

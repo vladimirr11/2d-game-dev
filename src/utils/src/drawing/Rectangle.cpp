@@ -1,4 +1,4 @@
-// Corresponding headers
+// Corresponding header
 #include "utils/drawing/Rectangle.h"
 
 // C++ system includes

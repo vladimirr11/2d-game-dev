@@ -1,9 +1,10 @@
-// Corresponding headers
+// Corresponding header
 #include "utils/time/Time.h"
 
 Time& Time::getElapsed() {
     _elapsedLastCall = _now;
     _now = std::chrono::steady_clock::now();
+
     return *this;
 }
 

@@ -1,42 +1,29 @@
 #ifndef GAME_H
 #define GAME_H
 
-// C++ system includes
-#include <cstdint>
-#include <vector>
-
 // Own includes
 #include "game/config/GameConfig.h"
-#include "utils/drawing/DrawParams.h"
+#include "manager_utils/drawing/Image.h"
+#include "manager_utils/drawing/Text.h"
 
 // Forward declarations
 struct InputEvent;
-struct ImageContainer;
-struct TextContainer;
 
 class Game {
 public:
-    int32_t init(const GameConfig& gameCfg, const ImageContainer* imageContainerInterface,
-                 TextContainer* textContainerInterface);
+    int32_t init(const GameConfig& gameCfg);
 
     void deinit();
 
-    void draw(std::vector<DrawParams>& images);
+    void draw();
 
     void handleEvent(const InputEvent& event);
 
 private:
-    DrawParams pressKeysImg;
-    DrawParams layer2Img;
-    DrawParams helloSDLText;
-    DrawParams pressText;
-    DrawParams hideText;
+    void setMousePosText(const Point& mousePos);
 
-    bool isPressTextHidden = false;
-
-    // TODO remove these!!!
-    const ImageContainer* _imgContainer = nullptr;
-    TextContainer* _textContainer = nullptr;
+private:
+    Text _mousePosText;
 };
 
 #endif  // !GAME_H

@@ -1,9 +1,6 @@
 #ifndef DRAWPARAMS_H
 #define DRAWPARAMS_H
 
-// C++ system includes
-#include <cstdint>
-
 // Own includes
 #include "utils/drawing/Point.h"
 
@@ -21,6 +18,8 @@ enum class BlendMode : uint8_t {
 };
 
 struct DrawParams {
+    void reset();
+
     Point pos = Point::UNDEFINED;
 
     // Draw dimensions of the texture

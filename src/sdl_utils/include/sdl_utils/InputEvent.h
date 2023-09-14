@@ -1,9 +1,6 @@
 #ifndef INPUTEVENT_H
 #define INPUTEVENT_H
 
-// C++ system includes
-#include <cstdint>
-
 // Own includes
 #include "utils/drawing/Point.h"
 #include "utils/input/EventDefines.h"

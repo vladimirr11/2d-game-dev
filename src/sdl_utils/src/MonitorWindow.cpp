@@ -1,4 +1,4 @@
-// Corresponding headers
+// Corresponding header
 #include "sdl_utils/MonitorWindow.h"
 
 // C++ system includes
@@ -42,4 +42,4 @@ void MonitorWindow::updateWindowSurface() {
     }
 }
 
-SDL_Window* MonitorWindow::getWindow() { return _window; }
+SDL_Window* MonitorWindow::getWindow() const { return _window; }

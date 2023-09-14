@@ -1,5 +1,5 @@
 // Corresponding header
-#include "Engine.h"
+#include "engine/Engine.h"
 
 // C++ system includes
 #include <iostream>
@@ -9,29 +9,11 @@
 #include "utils/thread/ThreadUtils.h"
 #include "utils/time/Time.h"
 #include "engine/EngineConfigLoader.h"
-
-int32_t gTextWidth = 0;
-int32_t gTextHeight = 0;
-SDL_Texture* gTextTexture = nullptr;
+#include "manager_utils/managers/DrawManager.h"
 
 int32_t Engine::init(const EngineConfig& cfg) {
-    if (_window.init(cfg.windowConfig) != EXIT_SUCCESS) {
-        std::cerr << "MinitorWindow::init() failed." << std::endl;
-        return EXIT_FAILURE;
-    }
-
-    if (_renderer.init(_window.getWindow()) != EXIT_SUCCESS) {
-        std::cerr << "Renderer::init() failed." << std::endl;
-        return EXIT_FAILURE;
-    }
-
-    if (_imgContainer.init(cfg.imageContainerCfg) != EXIT_SUCCESS) {
-        std::cerr << "ImageContainer::init() failed." << std::endl;
-        return EXIT_FAILURE;
-    }
-
-    if (_textContainer.init(cfg.textContainerCfg) != EXIT_SUCCESS) {
-        std::cerr << "TextContainer::init() failed." << std::endl;
+    if (_managerHandler.init(cfg.managerHandlerCfg) != EXIT_SUCCESS) {
+        std::cerr << "ManagerHandler::init() failed." << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -40,7 +22,7 @@ int32_t Engine::init(const EngineConfig& cfg) {
         return EXIT_FAILURE;
     }
 
-    if (_game.init(cfg.gameCfg, &_imgContainer, &_textContainer) != EXIT_SUCCESS) {
+    if (_game.init(cfg.gameCfg) != EXIT_SUCCESS) {
         std::cerr << "Game::init() failed." << std::endl;
         return EXIT_FAILURE;
     }
@@ -51,10 +33,7 @@ int32_t Engine::init(const EngineConfig& cfg) {
 void Engine::deinit() {
     _game.deinit();
     _event.deinit();
-    _textContainer.deinit();
-    _imgContainer.deinit();
-    _renderer.deinit();
-    _window.deinit();
+    _managerHandler.deinit();
 }
 
 void Engine::start() { mainLoop(); }
@@ -75,28 +54,9 @@ void Engine::mainLoop() {
 }
 
 void Engine::drawFrame() {
-    _renderer.clearScreen();
-
-    std::vector<DrawParams> imagesVec;
-    _game.draw(imagesVec);
-
-    SDL_Texture* texture = nullptr;
-    for (const DrawParams& image : imagesVec) {
-        if (image.widgetType == WidgetType::TEXT) {
-            texture = _textContainer.getTextTexture(image.rsrcId);
-        } else if (image.widgetType == WidgetType::IMAGE) {
-            texture = _imgContainer.getImageTexture(image.rsrcId);
-        } else {
-            std::cerr << "Error, recieved unsupported WidgetType in Engine::drawFrame(): "
-                      << static_cast<int32_t>(image.widgetType) << " for resourceId - "
-                      << image.rsrcId << std::endl;
-            continue;
-        }
-
-        _renderer.renderTexture(texture, image);
-    }
-
-    _renderer.finishFrame();
+    gDrawMgr->clearScreen();
+    _game.draw();
+    gDrawMgr->finishFrame();
 }
 
 bool Engine::processFrame() {

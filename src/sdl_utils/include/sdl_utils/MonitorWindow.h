@@ -1,10 +1,6 @@
 #ifndef MONITORWINDOW_H
 #define MONITORWINDOW_H
 
-// C++ system includes
-#include <cstdint>
-#include <string>
-
 // Own includes
 #include "sdl_utils/config/MonitorWindowCfg.h"
 
@@ -15,7 +11,6 @@ struct SDL_Surface;
 class MonitorWindow {
 public:
     MonitorWindow() = default;
-
     ~MonitorWindow();
 
     MonitorWindow(const MonitorWindow& other) = delete;
@@ -30,7 +25,7 @@ public:
 
     void updateWindowSurface();
 
-    SDL_Window* getWindow();
+    SDL_Window* getWindow() const;
 
 private:
     SDL_Window* _window = nullptr;

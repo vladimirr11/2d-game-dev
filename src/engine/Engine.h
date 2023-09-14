@@ -1,16 +1,10 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-// C++ system includes
-#include <cstdint>
-
 // Own includes
 #include "game/Game.h"
 #include "sdl_utils/InputEvent.h"
-#include "sdl_utils/Renderer.h"
-#include "sdl_utils/MonitorWindow.h"
-#include "sdl_utils/containers/ImageContainer.h"
-#include "sdl_utils/containers/TextContainer.h"
+#include "manager_utils/managers/ManagerHandler.h"
 
 // Forward declarations
 struct EngineConfig;
@@ -29,11 +23,8 @@ private:
     void limitFPS(int64_t microsecondsToSleepFor);
 
 private:
-    MonitorWindow _window;
+    ManagerHandler _managerHandler;
     InputEvent _event;
-    Renderer _renderer;
-    ImageContainer _imgContainer;
-    TextContainer _textContainer;
     Game _game;
 };
 

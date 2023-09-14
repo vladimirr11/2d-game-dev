@@ -2,7 +2,6 @@
 #define TEXTURE_H
 
 // C++ system includes
-#include <cstdint>
 #include <string>
 
 // Own includes
@@ -17,7 +16,6 @@ typedef struct _TTF_Font TTF_Font;
 
 struct Texture {
     Texture() = delete;
-    
     ~Texture();
 
     static int32_t createSurfaceFromFile(const std::string& filePath, SDL_Surface*& outSusrface);

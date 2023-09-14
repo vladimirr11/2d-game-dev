@@ -2,7 +2,6 @@
 #include "sdl_utils/containers/TextContainer.h"
 
 // C++ system includes
-#include <cstdint>
 #include <iostream>
 
 // Third-party includes
@@ -92,6 +91,7 @@ SDL_Texture* TextContainer::getTextTexture(int32_t textId) const {
         std::cerr << "Error, trying to get non-existing textId - " << textId << std::endl;
         return nullptr;
     }
+
     return _textures[textId];
 }
 
