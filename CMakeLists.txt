@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5.1)
 
-project(improved_encapsulation LANGUAGES CXX)
+project(sprite_animations LANGUAGES CXX)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake_helpers/helpers.cmake)
 
@@ -22,9 +22,9 @@ find_package(${SDL2_image_name} REQUIRED)
 find_package(${SDL2_ttf_name} REQUIRED)
 find_package(${SDL2_mixer_name} REQUIRED)
 
-set(_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src) 
-
 file(COPY resources DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+
+set(_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src) 
 
 add_executable(
     ${PROJECT_NAME} 
@@ -33,11 +33,15 @@ add_executable(
         ${_SRC_DIR}/engine/Engine.h
         ${_SRC_DIR}/engine/EngineConfigLoader.h
         ${_SRC_DIR}/game/config/GameConfig.h
-        ${_SRC_DIR}/game/game.h
+        ${_SRC_DIR}/game/entities/Hero.h
+        ${_SRC_DIR}/game/entities/Wheel.h
+        ${_SRC_DIR}/game/Game.h
         
         ${_SRC_DIR}/engine/Engine.cpp
         ${_SRC_DIR}/engine/EngineConfigLoader.cpp
-        ${_SRC_DIR}/game/game.cpp
+        ${_SRC_DIR}/game/entities/Hero.cpp
+        ${_SRC_DIR}/game/entities/Wheel.cpp
+        ${_SRC_DIR}/game/Game.cpp
         
         ${_SRC_DIR}/main.cpp
 )
