@@ -20,11 +20,16 @@ void Image::create(int32_t resourceId, const Point& pos) {
         return;
     }
 
-    const Rectangle rect = gResourceMgr->getImageFrame(resourceId);
+    const Frames& frames = gResourceMgr->getImageFrame(resourceId);
 
+    _maxFrames = static_cast<int32_t>(frames.size());
+
+    const auto& firstFrame = frames.front();
+
+    _drawParams.frameRect = firstFrame;
     _drawParams.rsrcId = resourceId;
-    _drawParams.width = rect.w;
-    _drawParams.height = rect.h;
+    _drawParams.width = firstFrame.w;
+    _drawParams.height = firstFrame.h;
     _drawParams.pos = pos;
     _drawParams.widgetType = WidgetType::IMAGE;
 
@@ -43,3 +48,38 @@ void Image::destroy() {
 
     Widget::reset();
 }
+
+void Image::setFrame(int32_t frameIdx) {
+    if (0 > frameIdx || frameIdx >= _maxFrames) {
+        std::cerr << "Error, trying to set invalid frameIdx: " << frameIdx
+                  << " for image with resourceId " << _drawParams.rsrcId << std::endl;
+        return;
+    }
+
+    const Frames& frames = gResourceMgr->getImageFrame(_drawParams.rsrcId);
+    _drawParams.frameRect = frames[frameIdx];
+
+    _currFrame = frameIdx;
+}
+
+void Image::setNextFrame() {
+    _currFrame++;
+    if (_currFrame == _maxFrames) {
+        _currFrame = 0;
+    }
+
+    const Frames& frames = gResourceMgr->getImageFrame(_drawParams.rsrcId);
+    _drawParams.frameRect = frames[_currFrame];
+}
+
+void Image::setPrevFrame() {
+    _currFrame--;
+    if (_currFrame == -1) {
+        _currFrame = _maxFrames - 1;
+    }
+
+    const Frames& frames = gResourceMgr->getImageFrame(_drawParams.rsrcId);
+    _drawParams.frameRect = frames[_currFrame];
+}
+
+int32_t Image::getFrame() const { return _currFrame; }

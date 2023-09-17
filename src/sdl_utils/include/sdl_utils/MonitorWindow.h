@@ -1,6 +1,9 @@
 #ifndef MONITORWINDOW_H
 #define MONITORWINDOW_H
 
+// C++ system includes
+#include <string>
+
 // Own includes
 #include "sdl_utils/config/MonitorWindowCfg.h"
 
@@ -20,12 +23,9 @@ public:
     MonitorWindow& operator=(MonitorWindow&& other) = delete;
 
     int32_t init(const MonitorWindowCfg& cfg);
-
     void deinit();
-
     void updateWindowSurface();
-
-    SDL_Window* getWindow() const;
+    SDL_Window* getWindow();
 
 private:
     SDL_Window* _window = nullptr;

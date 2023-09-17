@@ -7,7 +7,9 @@
 // Own includes
 #include "sdl_utils/Texture.h"
 
-int32_t ImageContainer::init(const ImageContainerConfig& cfg) {
+static const Frames EMPTY_FRAMES{Rectangle::ZERO};
+
+int32_t ImageContainer::init(const ImageContainerCfg& cfg) {
     for (const auto& pair : cfg.imageConfigs) {
         const int32_t resId = pair.first;
         const auto& elem = pair.second;
@@ -39,12 +41,12 @@ SDL_Texture* ImageContainer::getImageTexture(int32_t rsrcId) const {
     return it->second;
 }
 
-Rectangle ImageContainer::getImageFrame(int32_t rsrcId) const {
+const Frames& ImageContainer::getImageFrame(int32_t rsrcId) const {
     const auto it = _textureFrames.find(rsrcId);
     if (it == _textureFrames.end()) {
         std::cerr << "Invalid rsrcId in ImageContainer::getImageFrame() " << rsrcId << "requested."
-                  << "Returning ZERO rectangle." << std::endl;
-        return Rectangle::ZERO;
+                  << "Returning EMPTY_FRAMES." << std::endl;
+        return EMPTY_FRAMES;
     }
 
     return it->second;
@@ -58,15 +60,8 @@ int32_t ImageContainer::loadSingleResource(const ImageConfig& resourceCfg, int32
                   << std::endl;
         return EXIT_FAILURE;
     }
-
     _textures[resourceId] = texture;
-
-    Rectangle& rect = _textureFrames[resourceId];
-
-    rect.x = 0;
-    rect.y = 0;
-    rect.w = resourceCfg.width;
-    rect.h = resourceCfg.height;
+    _textureFrames[resourceId] = resourceCfg.frames;
 
     return EXIT_SUCCESS;
 }

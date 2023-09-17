@@ -1,4 +1,4 @@
-// Corresponding headers
+// Corresponding header
 #include "manager_utils/drawing/Text.h"
 #include "manager_utils/managers/ResourceManager.h"
 
@@ -19,6 +19,12 @@ void Text::create(const std::string& text, int32_t fontId, const Color& color, c
 
     gResourceMgr->createText(text, color, fontId, _drawParams.rsrcId, _drawParams.width,
                              _drawParams.height);
+
+    _drawParams.frameRect.x = 0;
+    _drawParams.frameRect.y = 0;
+    _drawParams.frameRect.w = _drawParams.width;
+    _drawParams.frameRect.h = _drawParams.height;
+
     _drawParams.pos = pos;
     _drawParams.widgetType = WidgetType::TEXT;
 
@@ -50,6 +56,9 @@ void Text::setText(const std::string& text) {
     _textContent = text;
     gResourceMgr->createText(text, _color, _fontId, _drawParams.rsrcId, _drawParams.width,
                              _drawParams.height);
+
+    _drawParams.frameRect.w = _drawParams.width;
+    _drawParams.frameRect.h = _drawParams.height;
 }
 
 void Text::setColor(const Color& color) {

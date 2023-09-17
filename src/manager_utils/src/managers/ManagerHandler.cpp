@@ -42,6 +42,7 @@ void ManagerHandler::deinit() {
     for (int32_t i = MANAGERS_COUNT - 1; i >= 0; i--) {
         _managers[i]->deinit();
         _managers[i] = nullptr;
+
         nullifyGlobalManager(i);
     }
 }
@@ -62,6 +63,7 @@ void ManagerHandler::nullifyGlobalManager(int32_t managerIdx) {
         delete gResourceMgr;
         gResourceMgr = nullptr;
         break;
+
     default:
         std::cerr << "Recieved invalid managerIndx!" << std::endl;
         break;

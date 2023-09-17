@@ -26,7 +26,7 @@ int32_t Renderer::init(SDL_Window* window) {
         return EXIT_FAILURE;
     }
 
-    if (SDL_SetRenderDrawColor(_sdlRenderer, 0, 0, 255, SDL_ALPHA_OPAQUE) != EXIT_SUCCESS) {
+    if (EXIT_SUCCESS != SDL_SetRenderDrawColor(_sdlRenderer, 0, 0, 255, SDL_ALPHA_OPAQUE)) {
         std::cerr << "SDL_SetRenderDrawColor() failed." << SDL_GetError() << std::endl;
         return EXIT_FAILURE;
     }
@@ -79,41 +79,39 @@ void Renderer::setWidgetOpacity(SDL_Texture* texture, int32_t opacity) {
 }
 
 void Renderer::drawImage(const DrawParams& drawParams, SDL_Texture* texture) {
-    const SDL_Rect destRect = {.x = drawParams.pos.x,
-                               .y = drawParams.pos.y,
-                               .w = drawParams.width,
-                               .h = drawParams.height};
-
-    int32_t errCode = EXIT_SUCCESS;
-    if (FULL_OPACITY == drawParams.opacity) {
-        errCode = SDL_RenderCopy(_sdlRenderer, texture, nullptr, &destRect);
+    if (drawParams.opacity == FULL_OPACITY) {
+        drawTextureInternal(drawParams, texture);
     } else {
         if (Texture::setAlphaTexture(texture, drawParams.opacity) != EXIT_SUCCESS) {
             std::cerr << "Texture::setAlphaTexture() failed for resourceId: " << drawParams.rsrcId
                       << std::endl;
         }
 
-        errCode = SDL_RenderCopy(_sdlRenderer, texture, nullptr, &destRect);
+        drawTextureInternal(drawParams, texture);
 
         if (Texture::setAlphaTexture(texture, FULL_OPACITY) != EXIT_SUCCESS) {
             std::cerr << "Texture::setAlphaTexture() failed for resourceId: " << drawParams.rsrcId
                       << std::endl;
         }
     }
-
-    if (errCode != EXIT_SUCCESS) {
-        std::cerr << "SDL_RenderCopy() failed for resourceId. " << drawParams.rsrcId
-                  << "Reason: " << SDL_GetError() << std::endl;
-    }
 }
 
 void Renderer::drawText(const DrawParams& drawParams, SDL_Texture* texture) {
+    drawTextureInternal(drawParams, texture);
+}
+
+void Renderer::drawTextureInternal(const DrawParams& drawParams, SDL_Texture* texture) {
     const SDL_Rect destRect = {.x = drawParams.pos.x,
                                .y = drawParams.pos.y,
                                .w = drawParams.width,
                                .h = drawParams.height};
 
-    const int32_t errCode = SDL_RenderCopy(_sdlRenderer, texture, nullptr, &destRect);
+    const SDL_Rect* sourceRect = reinterpret_cast<const SDL_Rect*>(&drawParams.frameRect);
+    const SDL_Point* center = reinterpret_cast<const SDL_Point*>(&drawParams.rotationCenter);
+    const int32_t errCode =
+        SDL_RenderCopyEx(_sdlRenderer, texture, sourceRect, &destRect, drawParams.rotationAngle,
+                         center, static_cast<SDL_RendererFlip>(drawParams.widgetFlip));
+
     if (errCode != EXIT_SUCCESS) {
         std::cerr << "SDL_RenderCopy() failed for resourceId. " << drawParams.rsrcId
                   << "Reason: " << SDL_GetError() << std::endl;

@@ -2,6 +2,7 @@
 #include "manager_utils/drawing/Widget.h"
 
 // C++ system includes
+#include <cstdint>
 #include <iostream>
 
 // Own includes
@@ -20,6 +21,20 @@ void Widget::reset() {
     _isAlphaModulationEnabled = false;
 
     _drawParams.reset();
+}
+
+void Widget::setFlipType(WidgetFlip flipType) { _drawParams.widgetFlip = flipType; }
+
+void Widget::setRotation(double angle) { _drawParams.rotationAngle = angle; }
+
+double Widget::getRotation() const { return _drawParams.rotationAngle; }
+
+void Widget::rotateRight(double delta) { _drawParams.rotationAngle += delta; }
+
+void Widget::rotateLeft(double delta) { _drawParams.rotationAngle -= delta; }
+
+void Widget::setRotationCenter(const Point rotationCenter) {
+    _drawParams.rotationCenter = rotationCenter;
 }
 
 void Widget::setPosition(const Point& pos) { _drawParams.pos = pos; }

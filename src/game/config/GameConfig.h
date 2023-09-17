@@ -5,8 +5,8 @@
 #include <cstdint>
 
 struct GameConfig {
-    int32_t layer2ResourceId;
-    int32_t pressKeysResourceId;
+    int32_t runningGirlId;
+    int32_t wheelId;
     int32_t textFontId;
 };
 

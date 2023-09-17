@@ -13,9 +13,7 @@ struct ManagerHandlerCfg;
 class ManagerHandler {
 public:
     int32_t init(const ManagerHandlerCfg& managerHandlerCfg);
-
     void deinit();
-
     void process();
 
 private:

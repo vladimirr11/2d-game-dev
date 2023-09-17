@@ -17,7 +17,7 @@ static int32_t runApplication() {
     }
 
     engine.start();
-
+    
     engine.deinit();
 
     return EXIT_SUCCESS;

@@ -3,10 +3,13 @@
 
 // Own includes
 #include "utils/drawing/Point.h"
+#include "utils/drawing/Rectangle.h"
 
 inline constexpr auto RESOURCE_ID = -1;
 inline constexpr int32_t FULL_OPACITY = 255;
 inline constexpr int32_t ZERO_OPACITY = 0;
+
+enum class WidgetFlip : uint8_t { NONE, HORIZONTAL, VERTICAL, HORIZONTAL_AND_VERTICAL };
 
 enum class WidgetType : uint8_t { IMAGE, TEXT, UNKNOWN };
 
@@ -21,11 +24,14 @@ struct DrawParams {
     void reset();
 
     Point pos = Point::UNDEFINED;
+    Rectangle frameRect = Rectangle::ZERO;
 
     // Draw dimensions of the texture
     int32_t width = 0;
     int32_t height = 0;
 
+    double rotationAngle = 0.0;
+    Point rotationCenter = Point::ZERO;
     int32_t opacity = FULL_OPACITY;
 
     // unique resourceId and textId
@@ -35,6 +41,7 @@ struct DrawParams {
     };
 
     WidgetType widgetType = WidgetType::UNKNOWN;
+    WidgetFlip widgetFlip = WidgetFlip::NONE;
 };
 
 #endif  // !DRAWPARAMS_H

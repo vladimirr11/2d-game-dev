@@ -5,11 +5,11 @@
 #include <iostream>
 
 // Own includes
+#include "engine/EngineConfigLoader.h"
+#include "manager_utils/managers/DrawManager.h"
 #include "sdl_utils/Texture.h"
 #include "utils/thread/ThreadUtils.h"
 #include "utils/time/Time.h"
-#include "engine/EngineConfigLoader.h"
-#include "manager_utils/managers/DrawManager.h"
 
 int32_t Engine::init(const EngineConfig& cfg) {
     if (_managerHandler.init(cfg.managerHandlerCfg) != EXIT_SUCCESS) {
@@ -40,15 +40,12 @@ void Engine::start() { mainLoop(); }
 
 void Engine::mainLoop() {
     Time time;
-
     while (true) {
         time.getElapsed();
-
         const bool shouldExit = processFrame();
         if (shouldExit) {
             break;
         }
-
         limitFPS(time.getElapsed().toMicroseconds());
     }
 }
@@ -64,10 +61,8 @@ bool Engine::processFrame() {
         if (_event.checkForExitRequest()) {
             return true;
         }
-
         handleEvent();
     }
-
     drawFrame();
 
     return false;

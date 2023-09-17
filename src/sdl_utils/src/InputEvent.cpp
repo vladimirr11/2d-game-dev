@@ -1,4 +1,4 @@
-// Corresponding headers
+// Corresponding header
 #include "sdl_utils/InputEvent.h"
 
 // C++ system includes

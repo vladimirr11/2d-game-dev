@@ -11,11 +11,8 @@ union SDL_Event;
 class InputEvent {
 public:
     int32_t init();
-
     void deinit();
-
     bool pollEvent();
-
     bool checkForExitRequest() const;
 
 private:

@@ -1,4 +1,4 @@
-// Corresponding header
+// Corresponding headers
 #include "sdl_utils/Texture.h"
 
 // C++ system includes

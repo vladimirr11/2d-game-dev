@@ -5,7 +5,7 @@
 #include <cstdint>
 
 namespace TextureId {
-enum ResourceId { PRESS_KEYS, LAYER_2 };
+enum ResourceId { RUNNING_GIRL, WHEEL };
 }  // namespace TextureId
 
 namespace FontId {

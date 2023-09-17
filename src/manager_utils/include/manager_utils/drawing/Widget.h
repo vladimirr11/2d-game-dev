@@ -7,9 +7,17 @@
 class Widget {
 public:
     void draw();
-
-    // setters and getters
     void reset();
+
+    void setFlipType(WidgetFlip flipType);
+
+    void setRotation(double angle);
+    double getRotation() const;
+
+    void rotateRight(double delta);
+    void rotateLeft(double delta);
+
+    void setRotationCenter(const Point rotationCenter);
 
     void setPosition(const Point& pos);
     void setPosition(int32_t x, int32_t y);

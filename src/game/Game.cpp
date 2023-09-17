@@ -3,26 +3,46 @@
 
 // C++ system includes
 #include <iostream>
-#include <string>
 
 // Own includes
 #include "sdl_utils/InputEvent.h"
 #include "utils/drawing/Color.h"
 
 int32_t Game::init(const GameConfig& gameCfg) {
+    if (_hero.init(gameCfg.runningGirlId) != EXIT_SUCCESS) {
+        std::cerr << "Hero::init() failed!" << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    if (_wheel.init(gameCfg.wheelId) != EXIT_SUCCESS) {
+        std::cerr << "Wheel::init() failed!" << std::endl;
+        return EXIT_FAILURE;
+    }
+
     _mousePosText.create("_", gameCfg.textFontId, Colors::RED);
     _mousePosText.hide();
+
     return EXIT_SUCCESS;
 }
 
-void Game::deinit() {}
+void Game::deinit() { _hero.deinit(); }
 
-void Game::draw() { _mousePosText.draw(); }
+void Game::draw() {
+    _wheel.draw();
+    _hero.draw();
+    _mousePosText.draw();
+}
 
 void Game::handleEvent(const InputEvent& event) {
-    if (event.typeTouchEvent != TouchEvent::TOUCH_RELEASE) {
-        return;
+    _hero.handleEvent(event);
+    _wheel.handleEvent(event);
+
+    if (event.typeTouchEvent == TouchEvent::KEYBOARD_PRESS) {
+        if (event.key == Keyboard::KEY_A) {
+            _mousePosText.rotateRight(30);
+        }
     }
+
     setMousePosText(event.pointPos);
 }
 

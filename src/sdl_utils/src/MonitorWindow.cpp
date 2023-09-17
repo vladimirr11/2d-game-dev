@@ -42,4 +42,4 @@ void MonitorWindow::updateWindowSurface() {
     }
 }
 
-SDL_Window* MonitorWindow::getWindow() const { return _window; }
+SDL_Window* MonitorWindow::getWindow() { return _window; }
