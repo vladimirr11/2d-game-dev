@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5.1)
 
-project(sprite_animations LANGUAGES CXX)
+project(buttons_and_timers LANGUAGES CXX)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake_helpers/helpers.cmake)
 
@@ -28,17 +28,21 @@ set(_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 add_executable(
     ${PROJECT_NAME} 
+
         ${_SRC_DIR}/common/CommonDefines.h
         ${_SRC_DIR}/engine/config/EngineConfig.h
         ${_SRC_DIR}/engine/Engine.h
         ${_SRC_DIR}/engine/EngineConfigLoader.h
+        ${_SRC_DIR}/game/buttons/WheelButton.h
         ${_SRC_DIR}/game/config/GameConfig.h
         ${_SRC_DIR}/game/entities/Hero.h
         ${_SRC_DIR}/game/entities/Wheel.h
+        ${_SRC_DIR}/game/proxies/GameProxy.h
         ${_SRC_DIR}/game/Game.h
-        
+
         ${_SRC_DIR}/engine/Engine.cpp
         ${_SRC_DIR}/engine/EngineConfigLoader.cpp
+        ${_SRC_DIR}/game/buttons/WheelButton.cpp
         ${_SRC_DIR}/game/entities/Hero.cpp
         ${_SRC_DIR}/game/entities/Wheel.cpp
         ${_SRC_DIR}/game/Game.cpp
