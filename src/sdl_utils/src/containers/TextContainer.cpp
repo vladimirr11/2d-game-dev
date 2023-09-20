@@ -2,6 +2,7 @@
 #include "sdl_utils/containers/TextContainer.h"
 
 // C++ system includes
+#include <cstdint>
 #include <iostream>
 
 // Third-party includes
@@ -20,7 +21,6 @@ int32_t TextContainer::init(const TextContainerCfg& cfg) {
                       << ". Reason: " << SDL_GetError() << std::endl;
             return EXIT_FAILURE;
         }
-
         _fonts[textId] = currFont;
     }
 

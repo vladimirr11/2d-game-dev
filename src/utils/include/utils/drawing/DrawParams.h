@@ -8,6 +8,7 @@
 inline constexpr auto RESOURCE_ID = -1;
 inline constexpr int32_t FULL_OPACITY = 255;
 inline constexpr int32_t ZERO_OPACITY = 0;
+inline constexpr double FULL_ROTATION = 360.0;
 
 enum class WidgetFlip : uint8_t { NONE, HORIZONTAL, VERTICAL, HORIZONTAL_AND_VERTICAL };
 
@@ -25,21 +26,17 @@ struct DrawParams {
 
     Point pos = Point::UNDEFINED;
     Rectangle frameRect = Rectangle::ZERO;
-
     // Draw dimensions of the texture
     int32_t width = 0;
     int32_t height = 0;
-
     double rotationAngle = 0.0;
     Point rotationCenter = Point::ZERO;
     int32_t opacity = FULL_OPACITY;
-
     // unique resourceId and textId
     union {
         int32_t rsrcId = RESOURCE_ID;
         int32_t textId;
     };
-
     WidgetType widgetType = WidgetType::UNKNOWN;
     WidgetFlip widgetFlip = WidgetFlip::NONE;
 };

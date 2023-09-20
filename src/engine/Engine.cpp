@@ -5,11 +5,12 @@
 #include <iostream>
 
 // Own includes
-#include "engine/EngineConfigLoader.h"
-#include "manager_utils/managers/DrawManager.h"
 #include "sdl_utils/Texture.h"
 #include "utils/thread/ThreadUtils.h"
 #include "utils/time/Time.h"
+#include "engine/EngineConfigLoader.h"
+#include "manager_utils/managers/DrawManager.h"
+#include "manager_utils/managers/TimerManager.h"
 
 int32_t Engine::init(const EngineConfig& cfg) {
     if (_managerHandler.init(cfg.managerHandlerCfg) != EXIT_SUCCESS) {
@@ -27,6 +28,8 @@ int32_t Engine::init(const EngineConfig& cfg) {
         return EXIT_FAILURE;
     }
 
+    gTimerManager->onInitEnd();
+
     return EXIT_SUCCESS;
 }
 
@@ -40,6 +43,7 @@ void Engine::start() { mainLoop(); }
 
 void Engine::mainLoop() {
     Time time;
+
     while (true) {
         time.getElapsed();
         const bool shouldExit = processFrame();
@@ -57,14 +61,16 @@ void Engine::drawFrame() {
 }
 
 bool Engine::processFrame() {
+    _managerHandler.process();
+
     while (_event.pollEvent()) {
         if (_event.checkForExitRequest()) {
             return true;
         }
         handleEvent();
     }
-    drawFrame();
 
+    drawFrame();
     return false;
 }
 

@@ -1,9 +1,6 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-// C++ system includes
-#include <cstdint>
-
 // Own includes
 #include "utils/drawing/Point.h"
 
@@ -14,11 +11,9 @@ struct RGBA {
     uint8_t a{255};
 };
 
-class Color {
-public:
+struct Color {
     Color(const uint8_t red, const uint8_t green, const uint8_t blue, const uint8_t alpha = 255);
 
-    // forbid default constructor
     Color() = delete;
 
     bool operator==(const Color& other) const;

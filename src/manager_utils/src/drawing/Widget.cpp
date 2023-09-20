@@ -2,7 +2,6 @@
 #include "manager_utils/drawing/Widget.h"
 
 // C++ system includes
-#include <cstdint>
 #include <iostream>
 
 // Own includes
@@ -29,9 +28,21 @@ void Widget::setRotation(double angle) { _drawParams.rotationAngle = angle; }
 
 double Widget::getRotation() const { return _drawParams.rotationAngle; }
 
-void Widget::rotateRight(double delta) { _drawParams.rotationAngle += delta; }
+void Widget::rotateRight(double delta) {
+    _drawParams.rotationAngle += delta;
 
-void Widget::rotateLeft(double delta) { _drawParams.rotationAngle -= delta; }
+    while (_drawParams.rotationAngle > FULL_ROTATION) {
+        _drawParams.rotationAngle -= FULL_ROTATION;
+    }
+}
+
+void Widget::rotateLeft(double delta) {
+    _drawParams.rotationAngle -= delta;
+
+    while (_drawParams.rotationAngle < 0) {
+        _drawParams.rotationAngle += FULL_ROTATION;
+    }
+}
 
 void Widget::setRotationCenter(const Point rotationCenter) {
     _drawParams.rotationCenter = rotationCenter;
@@ -99,3 +110,10 @@ void Widget::moveLeft(int32_t delta) { _drawParams.pos.x -= delta; }
 void Widget::moveUp(int32_t delta) { _drawParams.pos.y -= delta; }
 
 void Widget::moveDown(int32_t delta) { _drawParams.pos.y += delta; }
+
+bool Widget::containsPoint(const Point& pos) const {
+    const Rectangle bound(_drawParams.pos.x, _drawParams.pos.y, _drawParams.width,
+                          _drawParams.height);
+
+    return bound.isPointInsideRect(pos);
+}

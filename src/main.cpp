@@ -1,4 +1,3 @@
-// C++ system includes
 #include <iostream>
 
 #define SDL_MAIN_HANDLED
@@ -17,7 +16,7 @@ static int32_t runApplication() {
     }
 
     engine.start();
-    
+
     engine.deinit();
 
     return EXIT_SUCCESS;
@@ -35,8 +34,6 @@ int32_t main([[maybe_unused]] int32_t argc, [[maybe_unused]] char* argv[]) {
     }
 
     SDLLoader::deinit();
-
-    std::cout << "It works!" << std::endl;
 
     return EXIT_SUCCESS;
 }

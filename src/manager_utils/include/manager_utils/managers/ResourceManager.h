@@ -20,6 +20,7 @@ public:
     ResourceManager& operator=(ResourceManager&& other) = delete;
 
     int32_t init(const ResourceManagerCfg& darwMgrCfg);
+
     void deinit() final;
     void process() final;
 

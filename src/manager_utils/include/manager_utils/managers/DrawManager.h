@@ -34,6 +34,8 @@ public:
 
 private:
     SDL_Texture* getTextureInternal(const DrawParams& drawParams) const;
+
+private:
     Renderer _renderer;
     MonitorWindow _window;
     // Hold maximum frame rate cap

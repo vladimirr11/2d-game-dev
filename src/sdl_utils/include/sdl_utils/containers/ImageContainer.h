@@ -16,7 +16,7 @@ public:
     const Frames& getImageFrame(int32_t rsrcId) const;
 
 protected:
-    int32_t init(const ImageContainerCfg& imageCfg);
+    int32_t init(const ImageContainerConfig& imageCfg);
     void deinit();
 
 private:

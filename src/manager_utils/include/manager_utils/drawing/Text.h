@@ -15,8 +15,10 @@ public:
     void create(const std::string& text, int32_t fontId, const Color& color,
                 const Point& pos = Point::ZERO);
     void destroy();
+
     void setText(const std::string& text);
     void setColor(const Color& color);
+
     std::string getTextContent() const;
 
 private:

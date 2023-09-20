@@ -26,7 +26,7 @@ int32_t Renderer::init(SDL_Window* window) {
         return EXIT_FAILURE;
     }
 
-    if (EXIT_SUCCESS != SDL_SetRenderDrawColor(_sdlRenderer, 0, 0, 255, SDL_ALPHA_OPAQUE)) {
+    if (SDL_SetRenderDrawColor(_sdlRenderer, 0, 0, 255, SDL_ALPHA_OPAQUE) != EXIT_SUCCESS) {
         std::cerr << "SDL_SetRenderDrawColor() failed." << SDL_GetError() << std::endl;
         return EXIT_FAILURE;
     }
@@ -107,7 +107,9 @@ void Renderer::drawTextureInternal(const DrawParams& drawParams, SDL_Texture* te
                                .h = drawParams.height};
 
     const SDL_Rect* sourceRect = reinterpret_cast<const SDL_Rect*>(&drawParams.frameRect);
+
     const SDL_Point* center = reinterpret_cast<const SDL_Point*>(&drawParams.rotationCenter);
+
     const int32_t errCode =
         SDL_RenderCopyEx(_sdlRenderer, texture, sourceRect, &destRect, drawParams.rotationAngle,
                          center, static_cast<SDL_RendererFlip>(drawParams.widgetFlip));

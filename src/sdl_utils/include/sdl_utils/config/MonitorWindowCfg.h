@@ -2,6 +2,7 @@
 #define MONITORWINDOWCFG_H
 
 // C++ system includes
+#include <cstdint>
 #include <string>
 
 // Own includes

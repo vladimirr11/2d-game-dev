@@ -9,7 +9,7 @@
 
 static const Frames EMPTY_FRAMES{Rectangle::ZERO};
 
-int32_t ImageContainer::init(const ImageContainerCfg& cfg) {
+int32_t ImageContainer::init(const ImageContainerConfig& cfg) {
     for (const auto& pair : cfg.imageConfigs) {
         const int32_t resId = pair.first;
         const auto& elem = pair.second;
@@ -60,6 +60,7 @@ int32_t ImageContainer::loadSingleResource(const ImageConfig& resourceCfg, int32
                   << std::endl;
         return EXIT_FAILURE;
     }
+
     _textures[resourceId] = texture;
     _textureFrames[resourceId] = resourceCfg.frames;
 

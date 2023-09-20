@@ -2,7 +2,6 @@
 #define TEXTCONTAINER_H
 
 // C++ system includes
-#include <string>
 #include <vector>
 
 // Own includes
@@ -27,10 +26,12 @@ public:
 
 protected:
     int32_t init(const TextContainerCfg& cfg);
+    
     void deinit();
 
 private:
     void occupyFreeSlotIndex(int32_t& outIndex, SDL_Texture* texture);
+
     void freeSlotIndex(int32_t index);
 
 private:

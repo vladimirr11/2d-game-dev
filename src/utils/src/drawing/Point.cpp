@@ -1,4 +1,4 @@
-// Corresponding headers
+// Corresponding header
 #include "utils/drawing/Point.h"
 
 // C++ system includes
