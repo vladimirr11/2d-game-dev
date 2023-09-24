@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5.1)
 
-project(buttons_and_timers LANGUAGES CXX)
+project(chess LANGUAGES CXX)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake_helpers/helpers.cmake)
 
@@ -28,23 +28,29 @@ set(_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 add_executable(
     ${PROJECT_NAME} 
-
         ${_SRC_DIR}/common/CommonDefines.h
+        
         ${_SRC_DIR}/engine/config/EngineConfig.h
         ${_SRC_DIR}/engine/Engine.h
         ${_SRC_DIR}/engine/EngineConfigLoader.h
-        ${_SRC_DIR}/game/buttons/WheelButton.h
-        ${_SRC_DIR}/game/config/GameConfig.h
-        ${_SRC_DIR}/game/entities/Hero.h
-        ${_SRC_DIR}/game/entities/Wheel.h
-        ${_SRC_DIR}/game/proxies/GameProxy.h
-        ${_SRC_DIR}/game/Game.h
 
+        ${_SRC_DIR}/game/board/ChessBoard.h
+        ${_SRC_DIR}/game/chess_defines/ChessDefines.h
+        ${_SRC_DIR}/game/chess_pieces/types/ChessPiece.h
+        ${_SRC_DIR}/game/chess_pieces/PieceHandler.h
+        ${_SRC_DIR}/game/config/GameConfig.h
+        ${_SRC_DIR}/game/utility/BoardPos.h
+        ${_SRC_DIR}/game/utility/BoardUtils.h
+        ${_SRC_DIR}/game/proxies/GameBoardProxy.h
+        ${_SRC_DIR}/game/Game.h
+        
         ${_SRC_DIR}/engine/Engine.cpp
         ${_SRC_DIR}/engine/EngineConfigLoader.cpp
-        ${_SRC_DIR}/game/buttons/WheelButton.cpp
-        ${_SRC_DIR}/game/entities/Hero.cpp
-        ${_SRC_DIR}/game/entities/Wheel.cpp
+        
+        ${_SRC_DIR}/game/board/ChessBoard.cpp
+        ${_SRC_DIR}/game/chess_pieces/types/ChessPiece.cpp
+        ${_SRC_DIR}/game/chess_pieces/PieceHandler.cpp
+        ${_SRC_DIR}/game/utility/BoardUtils.cpp
         ${_SRC_DIR}/game/Game.cpp
         
         ${_SRC_DIR}/main.cpp
