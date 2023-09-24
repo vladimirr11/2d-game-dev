@@ -10,11 +10,9 @@ public:
 
     void create(int32_t resourceId, const Point& pos = Point::ZERO);
     void destroy();
-
     void setFrame(int32_t frameIdx);
     void setNextFrame();
     void setPrevFrame();
-
     int32_t getFrame() const;
 
 private:

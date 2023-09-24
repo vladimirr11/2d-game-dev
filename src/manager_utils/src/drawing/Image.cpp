@@ -58,7 +58,6 @@ void Image::setFrame(int32_t frameIdx) {
 
     const Frames& frames = gResourceMgr->getImageFrame(_drawParams.rsrcId);
     _drawParams.frameRect = frames[frameIdx];
-
     _currFrame = frameIdx;
 }
 

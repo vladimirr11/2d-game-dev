@@ -18,7 +18,7 @@ struct Texture {
     Texture() = delete;
     ~Texture();
 
-    static int32_t createSurfaceFromFile(const std::string& filePath, SDL_Surface*& outSusrface);
+    static int32_t createSurfaceFromFile(const std::string& filePath, SDL_Surface*& outSurface);
 
     static int32_t createTextureFromFile(const std::string& filePath, SDL_Texture*& outTexture);
 

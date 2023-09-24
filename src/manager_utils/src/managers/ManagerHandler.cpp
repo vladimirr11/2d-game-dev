@@ -10,7 +10,7 @@
 #include "manager_utils/managers/config/ManagerHandlerCfg.h"
 #include "manager_utils/managers/TimerManager.h"
 
-int32_t ManagerHandler::init(const ManagerHandlerCfg& managerHandlerCfg) {
+int32_t ManagerHandler::init(const ManagerHandlerConfig& managerHandlerCfg) {
     gDrawMgr = new DrawManager();
     if (gDrawMgr == nullptr) {
         std::cerr << "Error, bad allocation for DrawManager!" << std::endl;
@@ -55,6 +55,7 @@ void ManagerHandler::deinit() {
     for (int32_t i = MANAGERS_COUNT - 1; i >= 0; i--) {
         _managers[i]->deinit();
         _managers[i] = nullptr;
+
         nullifyGlobalManager(i);
     }
 }
@@ -79,6 +80,7 @@ void ManagerHandler::nullifyGlobalManager(int32_t managerIdx) {
         delete gTimerManager;
         gTimerManager = nullptr;
         break;
+
     default:
         std::cerr << "Recieved invalid managerIndx!" << std::endl;
         break;

@@ -5,7 +5,7 @@
 #include "sdl_utils/config/TextContainerCfg.h"
 #include "sdl_utils/config/ImageContainerCfg.h"
 
-struct ResourceManagerCfg {
+struct ResourceManagerConfig {
     ImageContainerConfig imageContainerCfg;
     TextContainerCfg textContainerCfg;
 };

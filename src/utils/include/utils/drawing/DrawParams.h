@@ -5,7 +5,7 @@
 #include "utils/drawing/Point.h"
 #include "utils/drawing/Rectangle.h"
 
-inline constexpr auto RESOURCE_ID = -1;
+inline constexpr auto INVALID_RESOURCE_ID = -1;
 inline constexpr int32_t FULL_OPACITY = 255;
 inline constexpr int32_t ZERO_OPACITY = 0;
 inline constexpr double FULL_ROTATION = 360.0;
@@ -34,7 +34,7 @@ struct DrawParams {
     int32_t opacity = FULL_OPACITY;
     // unique resourceId and textId
     union {
-        int32_t rsrcId = RESOURCE_ID;
+        int32_t rsrcId = INVALID_RESOURCE_ID;
         int32_t textId;
     };
     WidgetType widgetType = WidgetType::UNKNOWN;

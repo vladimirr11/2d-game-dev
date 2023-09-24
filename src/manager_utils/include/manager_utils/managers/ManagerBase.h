@@ -3,7 +3,8 @@
 
 enum { DRAW_MANAGER_IDX, RESOURCE_MANAGER_IDX, TIMER_MANAGER_IDX, MANAGERS_COUNT };
 
-struct ManagerBase {
+class ManagerBase {
+public:
     ManagerBase() = default;
     virtual ~ManagerBase() = default;
 

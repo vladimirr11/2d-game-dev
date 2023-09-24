@@ -14,14 +14,11 @@
 class TimerManager : public ManagerBase {
 public:
     int32_t init();
-
     void deinit() final;
     void process() final;
 
     void startTimer(const int32_t timerId, const TimerData& tData);
     void stopTimer(int32_t timerId);
-
-    // void detachTimerClient(int32_t timerId);
 
     bool isActiveTimerId(int32_t timerId) const;
 

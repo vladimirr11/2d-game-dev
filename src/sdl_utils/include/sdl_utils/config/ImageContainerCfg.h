@@ -2,9 +2,9 @@
 #define IMAGECONTAINERCFG_H
 
 // C++ system includes
-#include <string>
 #include <unordered_map>
 #include <vector>
+#include <string>
 
 // Own includes
 #include "utils/drawing/Rectangle.h"

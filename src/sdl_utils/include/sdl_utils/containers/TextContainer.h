@@ -26,7 +26,7 @@ public:
 
 protected:
     int32_t init(const TextContainerCfg& cfg);
-    
+
     void deinit();
 
 private:

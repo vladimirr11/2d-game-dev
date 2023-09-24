@@ -7,7 +7,7 @@
 #include "sdl_utils/MonitorWindow.h"
 
 // Forward declarations
-struct DrawManagerCfg;
+struct DrawManagerConfig;
 struct SDL_Texture;
 
 class DrawManager : public ManagerBase {
@@ -20,7 +20,7 @@ public:
     DrawManager& operator=(const DrawManager& other) = delete;
     DrawManager& operator=(DrawManager&& other) = delete;
 
-    int32_t init(const DrawManagerCfg& darwMgrCfg);
+    int32_t init(const DrawManagerConfig& darwMgrCfg);
 
     void deinit() final;
     void process() final;
@@ -38,7 +38,6 @@ private:
 private:
     Renderer _renderer;
     MonitorWindow _window;
-    // Hold maximum frame rate cap
     int64_t _maxFrames{0};
 };
 

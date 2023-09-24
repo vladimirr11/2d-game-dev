@@ -47,10 +47,6 @@ void TimerManager::stopTimer(int32_t timerId) {
     _removeTimerSet.insert(timerId);
 }
 
-// void TimerManager::detachTimerClient(int32_t timerId) {
-
-// }
-
 bool TimerManager::isActiveTimerId(int32_t timerId) const {
     return (_removeTimerSet.end() == _removeTimerSet.find(timerId)) &&
            (_timerMap.end() != _timerMap.find(timerId));

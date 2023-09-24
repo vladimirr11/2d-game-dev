@@ -19,10 +19,9 @@ public:
     MonitorWindow& operator=(const MonitorWindow& other) = delete;
     MonitorWindow& operator=(MonitorWindow&& other) = delete;
 
-    int32_t init(const MonitorWindowCfg& cfg);
+    int32_t init(const MonitorWindowConfig& cfg);
     void deinit();
     void updateWindowSurface();
-
     SDL_Window* getWindow();
 
 private:

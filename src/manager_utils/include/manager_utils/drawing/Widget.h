@@ -7,7 +7,6 @@
 class Widget {
 public:
     void draw();
-
     void reset();
 
     void setFlipType(WidgetFlip flipType);
@@ -18,7 +17,7 @@ public:
     void rotateRight(double delta);
     void rotateLeft(double delta);
 
-    void setRotationCenter(const Point rotationCenter);
+    void setRotationCenter(const Point& rotationCenter);
 
     void setPosition(const Point& pos);
     void setPosition(int32_t x, int32_t y);
@@ -30,7 +29,7 @@ public:
 
     int32_t getWidth() const;
     int32_t getHeight() const;
-
+    
     int32_t getOpacity() const;
     Point getPosition() const;
 
@@ -47,6 +46,8 @@ public:
 
     bool containsPoint(const Point& pos) const;
 
+    bool isVisible() const;
+
 protected:
     DrawParams _drawParams;
     bool _isCreated = false;
@@ -55,4 +56,4 @@ protected:
     bool _isAlphaModulationEnabled = false;
 };
 
-#endif  // !WIDGET_H
+#endif // !WIDGET_H

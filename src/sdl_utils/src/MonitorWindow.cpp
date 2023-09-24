@@ -10,7 +10,7 @@
 
 MonitorWindow::~MonitorWindow() { deinit(); }
 
-int32_t MonitorWindow::init(const MonitorWindowCfg& cfg) {
+int32_t MonitorWindow::init(const MonitorWindowConfig& cfg) {
     Point finalPosisition;
     if (cfg.windowPos == Point::UNDEFINED) {
         finalPosisition.x = SDL_WINDOWPOS_UNDEFINED;

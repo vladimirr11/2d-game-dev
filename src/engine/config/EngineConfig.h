@@ -6,7 +6,7 @@
 #include "manager_utils/managers/config/ManagerHandlerCfg.h"
 
 struct EngineConfig {
-    ManagerHandlerCfg managerHandlerCfg;
+    ManagerHandlerConfig managerHandlerCfg;
     GameConfig gameCfg;
 };
 

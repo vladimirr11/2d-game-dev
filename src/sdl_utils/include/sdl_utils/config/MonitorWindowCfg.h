@@ -2,7 +2,6 @@
 #define MONITORWINDOWCFG_H
 
 // C++ system includes
-#include <cstdint>
 #include <string>
 
 // Own includes
@@ -13,7 +12,7 @@ enum WindowFlags {
     WINDOW_FULLSCREEN_MODE = 4097  // SDL_WINDOW_FULLSCREEN_MODE
 };
 
-struct MonitorWindowCfg {
+struct MonitorWindowConfig {
     std::string windowName;
     Point windowPos = Point::UNDEFINED;
     int32_t windowWidth = 0;

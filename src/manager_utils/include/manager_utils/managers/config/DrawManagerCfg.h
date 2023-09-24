@@ -4,8 +4,8 @@
 // Own includes
 #include "sdl_utils/config/MonitorWindowCfg.h"
 
-struct DrawManagerCfg {
-    MonitorWindowCfg windowConfig;
+struct DrawManagerConfig {
+    MonitorWindowConfig windowConfig;
     int64_t maxFrameRate;
 };
 

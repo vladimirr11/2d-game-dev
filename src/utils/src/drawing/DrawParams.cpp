@@ -11,7 +11,7 @@ void DrawParams::reset() {
     height = 0;
     rotationAngle = 0.0;
     opacity = FULL_OPACITY;
-    rsrcId = RESOURCE_ID;
+    rsrcId = INVALID_RESOURCE_ID;
     widgetType = WidgetType::UNKNOWN;
     widgetFlip = WidgetFlip::NONE;
 }

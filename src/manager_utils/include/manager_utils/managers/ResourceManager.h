@@ -7,7 +7,7 @@
 #include "sdl_utils/containers/TextContainer.h"
 
 // Forward declarations
-struct ResourceManagerCfg;
+struct ResourceManagerConfig;
 
 class ResourceManager : public ManagerBase, public ImageContainer, public TextContainer {
 public:
@@ -19,8 +19,7 @@ public:
     ResourceManager& operator=(const ResourceManager& other) = delete;
     ResourceManager& operator=(ResourceManager&& other) = delete;
 
-    int32_t init(const ResourceManagerCfg& darwMgrCfg);
-
+    int32_t init(const ResourceManagerConfig& darwMgrCfg);
     void deinit() final;
     void process() final;
 

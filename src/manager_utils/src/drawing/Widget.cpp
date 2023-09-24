@@ -2,6 +2,7 @@
 #include "manager_utils/drawing/Widget.h"
 
 // C++ system includes
+#include <cstdint>
 #include <iostream>
 
 // Own includes
@@ -44,7 +45,7 @@ void Widget::rotateLeft(double delta) {
     }
 }
 
-void Widget::setRotationCenter(const Point rotationCenter) {
+void Widget::setRotationCenter(const Point& rotationCenter) {
     _drawParams.rotationCenter = rotationCenter;
 }
 
@@ -117,3 +118,5 @@ bool Widget::containsPoint(const Point& pos) const {
 
     return bound.isPointInsideRect(pos);
 }
+
+bool Widget::isVisible() const { return _isVisible; }

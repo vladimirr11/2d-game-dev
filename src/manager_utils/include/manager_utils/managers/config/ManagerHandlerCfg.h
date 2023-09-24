@@ -5,9 +5,9 @@
 #include "manager_utils/managers/config/DrawManagerCfg.h"
 #include "manager_utils/managers/config/ResourceManagerCfg.h"
 
-struct ManagerHandlerCfg {
-    DrawManagerCfg drawManagerCfg;
-    ResourceManagerCfg resourceManagerCfg;
+struct ManagerHandlerConfig {
+    DrawManagerConfig drawManagerCfg;
+    ResourceManagerConfig resourceManagerCfg;
 };
 
 #endif  // !MANAGERHANDLERCFG_H

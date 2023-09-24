@@ -5,15 +5,15 @@
 #include <cstdint>
 
 namespace TextureId {
-enum ResourceId { RUNNING_GIRL, WHEEL, START_BUTTON, STOP_BUTTON };
+enum ResourceId { CHESS_BOARD, TARGET, WHITE_PIECES, BLACK_PIECES };
 }  // namespace TextureId
 
 namespace FontId {
-enum FontIdKeys { ANGELINE_VINTAGE_40 };
+enum FontIdKeys { ANGELINE_VINTAGE };
 }  // namespace FontId
 
 namespace TimerId {
-enum Keys { WHEEL_ROTATION_ANIMATION_ID, SCALE_WHEEL_ID, RUNNING_GIRL_TIMER_ID };
+enum Keys { BLINK_TARGET_TIMER_ID };
 }  // namespace TimerId
 
 #endif  // !COMMONDEFINES_H

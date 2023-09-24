@@ -8,9 +8,9 @@
 #include "sdl_utils/Texture.h"
 #include "utils/thread/ThreadUtils.h"
 #include "utils/time/Time.h"
-#include "engine/EngineConfigLoader.h"
 #include "manager_utils/managers/DrawManager.h"
 #include "manager_utils/managers/TimerManager.h"
+#include "engine/EngineConfigLoader.h"
 
 int32_t Engine::init(const EngineConfig& cfg) {
     if (_managerHandler.init(cfg.managerHandlerCfg) != EXIT_SUCCESS) {
@@ -69,7 +69,6 @@ bool Engine::processFrame() {
         }
         handleEvent();
     }
-
     drawFrame();
     return false;
 }

@@ -14,11 +14,11 @@ public:
     virtual ~ButtonBase() = default;
 
     virtual void handleEvent(const InputEvent& event) = 0;
+
     virtual void draw();
 
     void lockInput();
     void unlockInput();
-
     bool isInputUnlocked() const;
 
     bool containsEvent(const InputEvent& event);

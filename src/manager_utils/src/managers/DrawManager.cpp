@@ -11,7 +11,7 @@
 
 DrawManager* gDrawMgr = nullptr;
 
-int32_t DrawManager::init(const DrawManagerCfg& drawMgrCfg) {
+int32_t DrawManager::init(const DrawManagerConfig& drawMgrCfg) {
     if (_window.init(drawMgrCfg.windowConfig) != EXIT_SUCCESS) {
         std::cerr << "MinitorWindow::init() failed." << std::endl;
         return EXIT_FAILURE;

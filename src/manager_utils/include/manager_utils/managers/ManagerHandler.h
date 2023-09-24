@@ -8,11 +8,11 @@
 #include "manager_utils/managers/ManagerBase.h"
 
 // Forward declarations
-struct ManagerHandlerCfg;
+struct ManagerHandlerConfig;
 
 class ManagerHandler {
 public:
-    int32_t init(const ManagerHandlerCfg& managerHandlerCfg);
+    int32_t init(const ManagerHandlerConfig& managerHandlerCfg);
     void deinit();
     void process();
 
