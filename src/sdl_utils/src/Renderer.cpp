@@ -13,21 +13,23 @@
 
 int32_t Renderer::init(SDL_Window* window) {
     if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
-        std::cerr << "Warning: Linear texture filtering not enabled! "
-                     "SDL_SetHint() failed. SDL Error: "
+        std::cerr << "Warning: Linear texture filtering not enabled. "
+                     "SDL_SetHint() failed. Reason: "
                   << SDL_GetError() << std::endl;
         return EXIT_FAILURE;
     }
 
-    constexpr auto driverId = -1;
+    constexpr int32_t driverId = -1;
     _sdlRenderer = SDL_CreateRenderer(window, driverId, SDL_RENDERER_ACCELERATED);
     if (_sdlRenderer == nullptr) {
-        std::cerr << "SDL_CreateRenderer() failed." << SDL_GetError() << std::endl;
+        std::cerr << "In Renderer::init() - SDL_CreateRenderer() failed. Reason: " << SDL_GetError()
+                  << std::endl;
         return EXIT_FAILURE;
     }
 
     if (SDL_SetRenderDrawColor(_sdlRenderer, 0, 0, 255, SDL_ALPHA_OPAQUE) != EXIT_SUCCESS) {
-        std::cerr << "SDL_SetRenderDrawColor() failed." << SDL_GetError() << std::endl;
+        std::cerr << "In Renderer::init() - SDL_SetRenderDrawColor() failed. Reason: "
+                  << SDL_GetError() << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -45,7 +47,8 @@ void Renderer::deinit() {
 
 void Renderer::clearScreen() {
     if (SDL_RenderClear(_sdlRenderer) != EXIT_SUCCESS) {
-        std::cerr << "SDL_RenderClear() failed." << SDL_GetError() << std::endl;
+        std::cerr << "In Renderer::clearScreen() - SDL_RenderClear() failed. Reason: "
+                  << SDL_GetError() << std::endl;
     }
 }
 
@@ -55,7 +58,7 @@ void Renderer::renderTexture(SDL_Texture* texture, const DrawParams& drawParams)
     } else if (drawParams.widgetType == WidgetType::TEXT) {
         drawText(drawParams, texture);
     } else {
-        std::cerr << "Error, recieved unsupported WidgetType: "
+        std::cerr << "In Renderer::renderTexture() recieved unsupported WidgetType: "
                   << static_cast<int32_t>(drawParams.widgetType) << " for resourceId - "
                   << drawParams.rsrcId << std::endl;
     }
@@ -64,16 +67,15 @@ void Renderer::renderTexture(SDL_Texture* texture, const DrawParams& drawParams)
 void Renderer::finishFrame() { SDL_RenderPresent(_sdlRenderer); }
 
 void Renderer::setWidgetBlendMode(SDL_Texture* texture, BlendMode blendMode) {
-    // enable alpha blending for all existing textures
-    if (Texture::setBlendModeTexture(texture, blendMode) != EXIT_SUCCESS) {
-        std::cerr << "Texture::setBlendModeTexture() in Renderer::setWidgetBlendMode() failed!"
+    if (Texture::setTextureBlendMode(texture, blendMode) != EXIT_SUCCESS) {
+        std::cerr << "In Renderer::setWidgetBlendMode() - Texture::setBlendModeTexture() failed."
                   << std::endl;
     }
 }
 
 void Renderer::setWidgetOpacity(SDL_Texture* texture, int32_t opacity) {
-    if (Texture::setAlphaTexture(texture, opacity) != EXIT_SUCCESS) {
-        std::cerr << "Texture::setAlphaTexture() in Renderer::setWidgetOpacity() failed!"
+    if (Texture::setTextureAlpha(texture, opacity) != EXIT_SUCCESS) {
+        std::cerr << "In Renderer::setWidgetOpacity() - Texture::setAlphaTexture() failed."
                   << std::endl;
     }
 }
@@ -82,16 +84,18 @@ void Renderer::drawImage(const DrawParams& drawParams, SDL_Texture* texture) {
     if (drawParams.opacity == FULL_OPACITY) {
         drawTextureInternal(drawParams, texture);
     } else {
-        if (Texture::setAlphaTexture(texture, drawParams.opacity) != EXIT_SUCCESS) {
-            std::cerr << "Texture::setAlphaTexture() failed for resourceId: " << drawParams.rsrcId
-                      << std::endl;
+        if (Texture::setTextureAlpha(texture, drawParams.opacity) != EXIT_SUCCESS) {
+            std::cerr
+                << "In Renderer::drawImage() - Texture::setTextureAlpha() failed for resourceId: "
+                << drawParams.rsrcId << std::endl;
         }
 
         drawTextureInternal(drawParams, texture);
 
-        if (Texture::setAlphaTexture(texture, FULL_OPACITY) != EXIT_SUCCESS) {
-            std::cerr << "Texture::setAlphaTexture() failed for resourceId: " << drawParams.rsrcId
-                      << std::endl;
+        if (Texture::setTextureAlpha(texture, FULL_OPACITY) != EXIT_SUCCESS) {
+            std::cerr
+                << "In Renderer::drawImage() - Texture::setTextureAlpha() failed  for resourceId: "
+                << drawParams.rsrcId << std::endl;
         }
     }
 }
@@ -107,7 +111,6 @@ void Renderer::drawTextureInternal(const DrawParams& drawParams, SDL_Texture* te
                                .h = drawParams.height};
 
     const SDL_Rect* sourceRect = reinterpret_cast<const SDL_Rect*>(&drawParams.frameRect);
-
     const SDL_Point* center = reinterpret_cast<const SDL_Point*>(&drawParams.rotationCenter);
 
     const int32_t errCode =
@@ -115,7 +118,8 @@ void Renderer::drawTextureInternal(const DrawParams& drawParams, SDL_Texture* te
                          center, static_cast<SDL_RendererFlip>(drawParams.widgetFlip));
 
     if (errCode != EXIT_SUCCESS) {
-        std::cerr << "SDL_RenderCopy() failed for resourceId. " << drawParams.rsrcId
-                  << "Reason: " << SDL_GetError() << std::endl;
+        std::cerr
+            << "In Renderer::drawTextureInternal() - SDL_RenderCopy() failed  for resourceId - "
+            << drawParams.rsrcId << "Reason: " << SDL_GetError() << std::endl;
     }
 }

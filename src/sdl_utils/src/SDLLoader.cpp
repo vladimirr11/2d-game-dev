@@ -1,10 +1,7 @@
 // Corresponding headers
 #include "sdl_utils/SDLLoader.h"
 
-// C system includes
-
 // C++ system includes
-#include <cstdlib>
 #include <iostream>
 
 // Third-party includes
@@ -14,33 +11,20 @@
 #include <SDL_mixer.h>
 
 // Own includes
+#include "utils/error/HandleError.h"
 
 int32_t SDLLoader::init() {
-    if (TTF_Init() != EXIT_SUCCESS) {
-        std::cerr << "TTF_Init() failed. Reason: " << SDL_GetError() << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(TTF_Init());
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) != EXIT_SUCCESS) {
-        std::cerr << "SDL_Init() failed. Reason: " << SDL_GetError() << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO));
 
     constexpr int32_t imgFlags = IMG_INIT_PNG;
-    if (!(IMG_Init(imgFlags) & imgFlags)) {
-        std::cerr << "SDL_image could not be initialised! SDL_image Error: " << IMG_GetError()
-                  << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(!(IMG_Init(imgFlags) & imgFlags));
 
-    if (0 > Mix_OpenAudio(44100,               // sound frequency
-                          MIX_DEFAULT_FORMAT,  // sample format
-                          2,                   // stereo hardware channels
-                          2048)) {             // chunk size
-        std::cerr << "SDL_mixer could not be initialised! SDL Error: " << Mix_GetError()
-                  << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(Mix_OpenAudio(44100,               // sound frequency
+                              MIX_DEFAULT_FORMAT,  // sample format
+                              2,                   // stereo hardware channels
+                              2048));
 
     return EXIT_SUCCESS;
 }

@@ -13,7 +13,7 @@ public:
     int32_t init();
     void deinit();
     bool pollEvent();
-    bool checkForExitRequest() const;
+    bool checkForExit() const;
 
 private:
     void setEventTypeInternal();

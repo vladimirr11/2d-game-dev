@@ -8,6 +8,7 @@
 struct EngineConfig {
     ManagerHandlerConfig managerHandlerCfg;
     GameConfig gameCfg;
+    int32_t debugConsoleFontId;
 };
 
 #endif  // !ENGINECONFIG_H

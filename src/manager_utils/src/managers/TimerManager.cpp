@@ -15,12 +15,15 @@ int32_t TimerManager::init() {
 }
 
 void TimerManager::process() {
+    removeTimersInternal();
+
     const int64_t msElapsed = _elapsedTime.getElapsed().toMilliseconds();
 
-    for (auto it = _timerMap.begin(); it != _timerMap.end(); ++it) {
-        it->second.remainingTime -= msElapsed;
-        if (0 > it->second.remainingTime) {
-            onTimerTimeout(it->first, it->second);
+    for (auto it = _timersMap.begin(); it != _timersMap.end(); it++) {
+        auto& [timerId, timerData] = *it;
+        timerData.remainingTime -= msElapsed;
+        if (0 > timerData.remainingTime) {
+            onTimerTimeout(timerId, timerData);
         }
     }
 
@@ -31,43 +34,47 @@ void TimerManager::deinit() {}
 
 void TimerManager::startTimer(const int32_t timerId, const TimerData& tData) {
     if (isActiveTimerId(timerId)) {
-        std::cerr << "Error, trying to start already existing timer - " << timerId << std::endl;
+        std::cerr << "In TimerManager::startTimer() trying to start already existing timer - "
+                  << timerId << std::endl;
         return;
     }
 
-    _timerMap.emplace(timerId, tData);
+    _timersMap.emplace(timerId, tData);
 }
 
 void TimerManager::stopTimer(int32_t timerId) {
     if (!isActiveTimerId(timerId)) {
-        std::cerr << "Error, trying to stop already stopped timer - " << timerId << std::endl;
+        std::cerr << "In TimerManager::stopTimer() trying to stop already stopped timer - "
+                  << timerId << std::endl;
         return;
     }
 
-    _removeTimerSet.insert(timerId);
+    _removedTimersSet.insert(timerId);
 }
 
 bool TimerManager::isActiveTimerId(int32_t timerId) const {
-    return (_removeTimerSet.end() == _removeTimerSet.find(timerId)) &&
-           (_timerMap.end() != _timerMap.find(timerId));
+    return (_removedTimersSet.end() == _removedTimersSet.find(timerId)) &&
+           (_timersMap.end() != _timersMap.find(timerId));
 }
 
 void TimerManager::onInitEnd() { _elapsedTime.getElapsed(); }
 
+size_t TimerManager::getActiveTimersCount() const { return _timersMap.size(); }
+
 void TimerManager::removeTimersInternal() {
-    for (const int32_t timerId : _removeTimerSet) {
-        auto mapIt = _timerMap.find(timerId);
-        if (mapIt != _timerMap.end()) {
-            _timerMap.erase(mapIt);
+    for (const int32_t timerId : _removedTimersSet) {
+        auto mapIt = _timersMap.find(timerId);
+        if (mapIt != _timersMap.end()) {
+            _timersMap.erase(mapIt);
         }
     }
 
-    _removeTimerSet.clear();
+    _removedTimersSet.clear();
 }
 
-void TimerManager::onTimerTimeout(int32_t timerId, TimerData& tData) {
+void TimerManager::onTimerTimeout(const int32_t timerId, TimerData& tData) {
     if (tData.timerType == TimerType::ONESHOT) {
-        _removeTimerSet.insert(timerId);
+        _removedTimersSet.insert(timerId);
     }
 
     tData.timerClient->onTimeout(timerId);

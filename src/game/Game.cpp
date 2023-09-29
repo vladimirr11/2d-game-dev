@@ -7,20 +7,15 @@
 // Own includes
 #include "sdl_utils/InputEvent.h"
 #include "game/chess_defines/ChessDefines.h"
+#include "utils/error/HandleError.h"
 
 int32_t Game::init(const GameConfig& gameCfg) {
-    if (_chessBoard.init(gameCfg.chessBoardId, gameCfg.targetId, gameCfg.blinkTargetTimerId) !=
-        EXIT_SUCCESS) {
-        std::cerr << "_chessBoard.init() in Game::init() failed!" << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(_chessBoard.init(gameCfg.chessBoardId, gameCfg.targetId,
+                                 gameCfg.moveTilesResourceId, gameCfg.blinkTargetTimerId));
 
-    if (_pieceHandler.init(static_cast<GameBoardProxy*>(&_chessBoard), gameCfg.whitePiecesId,
-                           gameCfg.blackPiecesId) != EXIT_SUCCESS) {
-        std::cerr << "_pieceHandler.init() in Game::init() failed!" << std::endl;
-        return EXIT_FAILURE;
-    }
-
+    handleError(_pieceHandler.init(static_cast<GameBoardProxy*>(&_chessBoard),
+                                   gameCfg.whitePiecesId, gameCfg.blackPiecesId,
+                                   gameCfg.unfinishedPieceFontId));
     return EXIT_SUCCESS;
 }
 

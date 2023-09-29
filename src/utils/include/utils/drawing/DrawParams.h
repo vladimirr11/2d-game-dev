@@ -5,7 +5,7 @@
 #include "utils/drawing/Point.h"
 #include "utils/drawing/Rectangle.h"
 
-inline constexpr auto INVALID_RESOURCE_ID = -1;
+inline constexpr int32_t INVALID_RESOURCE_ID = -1;
 inline constexpr int32_t FULL_OPACITY = 255;
 inline constexpr int32_t ZERO_OPACITY = 0;
 inline constexpr double FULL_ROTATION = 360.0;

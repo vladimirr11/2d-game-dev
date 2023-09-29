@@ -8,25 +8,17 @@
 #include "sdl_utils/Texture.h"
 #include "utils/thread/ThreadUtils.h"
 #include "utils/time/Time.h"
+#include "utils/error/HandleError.h"
+#include "engine/EngineConfigLoader.h"
 #include "manager_utils/managers/DrawManager.h"
 #include "manager_utils/managers/TimerManager.h"
-#include "engine/EngineConfigLoader.h"
 
 int32_t Engine::init(const EngineConfig& cfg) {
-    if (_managerHandler.init(cfg.managerHandlerCfg) != EXIT_SUCCESS) {
-        std::cerr << "ManagerHandler::init() failed." << std::endl;
-        return EXIT_FAILURE;
-    }
-
-    if (_event.init() != EXIT_SUCCESS) {
-        std::cerr << "InputEvent::init() failed." << std::endl;
-        return EXIT_FAILURE;
-    }
-
-    if (_game.init(cfg.gameCfg) != EXIT_SUCCESS) {
-        std::cerr << "Game::init() failed." << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(_managerHandler.init(cfg.managerHandlerCfg));
+    handleError(_event.init());
+    handleError(_game.init(cfg.gameCfg));
+    handleError(_debugConsole.init(cfg.managerHandlerCfg.drawManagerCfg.maxFrameRate,
+                                   cfg.debugConsoleFontId));
 
     gTimerManager->onInitEnd();
 
@@ -50,38 +42,55 @@ void Engine::mainLoop() {
         if (shouldExit) {
             break;
         }
-        limitFPS(time.getElapsed().toMicroseconds());
+
+        const auto elapsedTime = time.getElapsed().toMicroseconds();
+        if (_debugConsole.isActive() && elapsedTime != 0) {
+            _debugConsole.update(elapsedTime, gTimerManager->getActiveTimersCount());
+        }
+
+        limitFPS(elapsedTime);
     }
 }
 
 void Engine::drawFrame() {
-    gDrawMgr->clearScreen();
+    gDrawManager->clearScreen();
+
     _game.draw();
-    gDrawMgr->finishFrame();
+
+    if (_debugConsole.isActive()) {
+        _debugConsole.draw();
+    }
+
+    gDrawManager->finishFrame();
 }
 
 bool Engine::processFrame() {
     _managerHandler.process();
 
     while (_event.pollEvent()) {
-        if (_event.checkForExitRequest()) {
+        if (_event.checkForExit()) {
             return true;
         }
+
         handleEvent();
     }
+
     drawFrame();
+
     return false;
 }
 
-void Engine::handleEvent() { _game.handleEvent(_event); }
+void Engine::handleEvent() {
+    _game.handleEvent(_event);
+    _debugConsole.handleEvent(_event);
+}
 
-void Engine::limitFPS(int64_t microsecondsToSleepFor) {
-    constexpr int64_t maxFPS = 30;
-    constexpr int64_t microsecondsInSecond = 1000000;
-    constexpr int64_t microsecondsPerFrame = microsecondsInSecond / maxFPS;
-    const int64_t sleepFor = microsecondsPerFrame - microsecondsToSleepFor;
+void Engine::limitFPS(const int64_t microsecToSleepFor) {
+    constexpr int64_t microsecInSecond = 1'000'000;
+    const int64_t microsecPerFrame = microsecInSecond / gDrawManager->getMaxFrameRate();
+    const int64_t sleepFor = microsecPerFrame - microsecToSleepFor;
 
-    if (0 < sleepFor) {
+    if (sleepFor > 0) {
         Threading::sleepFor(sleepFor);
     }
 }

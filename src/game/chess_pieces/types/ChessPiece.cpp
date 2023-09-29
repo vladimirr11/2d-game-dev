@@ -10,14 +10,12 @@
 
 int32_t ChessPiece::init(const ChessPieceConfig& chessPieceCfg) {
     if (chessPieceCfg.pieceType == PieceType::UNKNOWN) {
-        std::cerr << "Error, invalid piece type provided: "
-                  << static_cast<int32_t>(chessPieceCfg.pieceType) << std::endl;
+        std::cerr << "Invalid piece type provided in ChessPiece::init()." << std::endl;
         return EXIT_FAILURE;
     }
 
     if (chessPieceCfg.chessPieceResourceId == INVALID_RESOURCE_ID) {
-        std::cerr << "Error, invalid chessPieceResourceId provided in ChessPiece::init()!"
-                  << std::endl;
+        std::cerr << "Invalid chess piece resource ID provided in ChessPiece::init()." << std::endl;
         return EXIT_FAILURE;
     }
 

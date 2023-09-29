@@ -1,19 +1,18 @@
+// C++ system headers
 #include <iostream>
 
 #define SDL_MAIN_HANDLED
 
 // Own includes
 #include "sdl_utils/SDLLoader.h"
+#include "utils/error/HandleError.h"
 #include "engine/Engine.h"
 #include "engine/EngineConfigLoader.h"
 
 static int32_t runApplication() {
     Engine engine;
 
-    if (engine.init(EngineConfigLoader::loadConfig()) != EXIT_SUCCESS) {
-        std::cerr << "Engine::init() failed." << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(engine.init(EngineConfigLoader::loadConfig()));
 
     engine.start();
 
@@ -23,17 +22,13 @@ static int32_t runApplication() {
 }
 
 int32_t main([[maybe_unused]] int32_t argc, [[maybe_unused]] char* argv[]) {
-    if (SDLLoader::init() != EXIT_SUCCESS) {
-        std::cerr << "SDLLoader::init() failed." << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(SDLLoader::init());
 
-    if (runApplication() != EXIT_SUCCESS) {
-        std::cerr << "runApplication() failed." << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(runApplication());
 
     SDLLoader::deinit();
+
+    std::cout << "Finished without errors!" << std::endl;
 
     return EXIT_SUCCESS;
 }

@@ -16,31 +16,33 @@ public:
 
     DrawManager(const DrawManager& other) = delete;
     DrawManager(DrawManager&& other) = delete;
-
     DrawManager& operator=(const DrawManager& other) = delete;
     DrawManager& operator=(DrawManager&& other) = delete;
 
-    int32_t init(const DrawManagerConfig& darwMgrCfg);
+    int32_t init(const DrawManagerConfig& drawManagerCfg);
 
-    void deinit() final;
     void process() final;
+    void deinit() final;
 
     void clearScreen();
     void finishFrame();
-    void addDrawCmd(const DrawParams& drawParams);
 
-    void setWidgetBlendMode(const DrawParams& drawParams, BlendMode blendMode);
-    void setWidgetOpacity(const DrawParams& drawParams, int32_t opacity);
+    void addDrawCommand(const DrawParams& drawParams);
+
+    void setWidgetBlendMode(const DrawParams& drawParams, const BlendMode blendMode);
+    void setWidgetOpacity(const DrawParams& drawParams, const int32_t opacity);
+
+    int64_t getMaxFrameRate() const;
 
 private:
     SDL_Texture* getTextureInternal(const DrawParams& drawParams) const;
 
 private:
-    Renderer _renderer;
     MonitorWindow _window;
+    Renderer _renderer;
     int64_t _maxFrames{0};
 };
 
-extern DrawManager* gDrawMgr;
+extern DrawManager* gDrawManager;
 
 #endif  // !DRAWMANAGER_H

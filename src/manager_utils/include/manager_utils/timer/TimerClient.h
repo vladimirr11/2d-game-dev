@@ -13,7 +13,7 @@ public:
     void startTimer(int64_t interval, int32_t timerId, TimerType timerType);
     void stopTimer(int32_t timerId);
 
-    bool isActiveTimerId(int32_t timerId) const;
+    bool isTimerActive(int32_t timerId) const;
 };
 
 #endif  // !TIMERCLIENT_H

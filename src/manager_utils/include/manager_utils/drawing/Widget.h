@@ -7,6 +7,7 @@
 class Widget {
 public:
     void draw();
+
     void reset();
 
     void setFlipType(WidgetFlip flipType);
@@ -29,8 +30,9 @@ public:
 
     int32_t getWidth() const;
     int32_t getHeight() const;
-    
+
     int32_t getOpacity() const;
+
     Point getPosition() const;
 
     void activateAlphaModulation();
@@ -51,9 +53,8 @@ public:
 protected:
     DrawParams _drawParams;
     bool _isCreated = false;
-    bool _isDestroyed = true;
     bool _isVisible = true;
     bool _isAlphaModulationEnabled = false;
 };
 
-#endif // !WIDGET_H
+#endif  // !WIDGET_H

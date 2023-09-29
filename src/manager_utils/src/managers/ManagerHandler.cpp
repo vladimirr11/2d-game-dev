@@ -9,43 +9,35 @@
 #include "manager_utils/managers/ResourceManager.h"
 #include "manager_utils/managers/config/ManagerHandlerCfg.h"
 #include "manager_utils/managers/TimerManager.h"
+#include "utils/error/HandleError.h"
 
 int32_t ManagerHandler::init(const ManagerHandlerConfig& managerHandlerCfg) {
-    gDrawMgr = new DrawManager();
-    if (gDrawMgr == nullptr) {
-        std::cerr << "Error, bad allocation for DrawManager!" << std::endl;
+    gDrawManager = new DrawManager();
+    if (gDrawManager == nullptr) {
+        std::cerr << "Bad allocation for DrawManager in ManagerHandler::init()." << std::endl;
         return EXIT_FAILURE;
     }
 
-    if (gDrawMgr->init(managerHandlerCfg.drawManagerCfg) != EXIT_SUCCESS) {
-        std::cerr << "gDrawMgr->init() failed!" << std::endl;
+    handleError(gDrawManager->init(managerHandlerCfg.drawManagerCfg));
+
+    gResourceManager = new ResourceManager();
+    if (gResourceManager == nullptr) {
+        std::cerr << "Bad allocation for ResourceManager in ManagerHandler::init()." << std::endl;
         return EXIT_FAILURE;
     }
 
-    gResourceMgr = new ResourceManager();
-    if (gResourceMgr == nullptr) {
-        std::cerr << "Error, bad allocation for ResourceManager!" << std::endl;
-        return EXIT_FAILURE;
-    }
-
-    if (gResourceMgr->init(managerHandlerCfg.resourceManagerCfg) != EXIT_SUCCESS) {
-        std::cerr << "gResourceMgr->init() failed!" << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(gResourceManager->init(managerHandlerCfg.resourceManagerCfg));
 
     gTimerManager = new TimerManager();
     if (gTimerManager == nullptr) {
-        std::cerr << "Error, bad allocation for TimerManager!" << std::endl;
+        std::cerr << "Bad allocation for TimerManager in ManagerHandler::init()." << std::endl;
         return EXIT_FAILURE;
     }
 
-    if (gTimerManager->init() != EXIT_SUCCESS) {
-        std::cerr << "gTimerManager->init() failed!" << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(gTimerManager->init());
 
-    _managers[DRAW_MANAGER_IDX] = static_cast<ManagerBase*>(gDrawMgr);
-    _managers[RESOURCE_MANAGER_IDX] = static_cast<ManagerBase*>(gResourceMgr);
+    _managers[DRAW_MANAGER_IDX] = static_cast<ManagerBase*>(gDrawManager);
+    _managers[RESOURCE_MANAGER_IDX] = static_cast<ManagerBase*>(gResourceManager);
     _managers[TIMER_MANAGER_IDX] = static_cast<ManagerBase*>(gTimerManager);
 
     return EXIT_SUCCESS;
@@ -55,7 +47,6 @@ void ManagerHandler::deinit() {
     for (int32_t i = MANAGERS_COUNT - 1; i >= 0; i--) {
         _managers[i]->deinit();
         _managers[i] = nullptr;
-
         nullifyGlobalManager(i);
     }
 }
@@ -69,12 +60,12 @@ void ManagerHandler::process() {
 void ManagerHandler::nullifyGlobalManager(int32_t managerIdx) {
     switch (managerIdx) {
     case DRAW_MANAGER_IDX:
-        delete gDrawMgr;
-        gDrawMgr = nullptr;
+        delete gDrawManager;
+        gDrawManager = nullptr;
         break;
     case RESOURCE_MANAGER_IDX:
-        delete gResourceMgr;
-        gResourceMgr = nullptr;
+        delete gResourceManager;
+        gResourceManager = nullptr;
         break;
     case TIMER_MANAGER_IDX:
         delete gTimerManager;
@@ -82,7 +73,8 @@ void ManagerHandler::nullifyGlobalManager(int32_t managerIdx) {
         break;
 
     default:
-        std::cerr << "Recieved invalid managerIndx!" << std::endl;
+        std::cerr << "ManagerHandler::nullifyGlobalManager() received invalid manager index."
+                  << std::endl;
         break;
     }
 }

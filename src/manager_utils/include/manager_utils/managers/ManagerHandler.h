@@ -13,8 +13,8 @@ struct ManagerHandlerConfig;
 class ManagerHandler {
 public:
     int32_t init(const ManagerHandlerConfig& managerHandlerCfg);
-    void deinit();
     void process();
+    void deinit();
 
 private:
     void nullifyGlobalManager(int32_t managerIdx);

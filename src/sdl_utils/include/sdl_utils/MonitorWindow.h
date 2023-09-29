@@ -10,9 +10,9 @@ struct SDL_Surface;
 
 class MonitorWindow {
 public:
-    MonitorWindow() = default;
     ~MonitorWindow();
 
+    MonitorWindow() = default;
     MonitorWindow(const MonitorWindow& other) = delete;
     MonitorWindow(MonitorWindow&& other) = delete;
 

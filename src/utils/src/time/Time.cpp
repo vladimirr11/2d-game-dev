@@ -8,17 +8,21 @@ Time& Time::getElapsed() {
 }
 
 int64_t Time::toSeconds() const {
-    return std::chrono::duration_cast<std::chrono::seconds>(_now - _elapsedLastCall).count();
+    using sec = std::chrono::seconds;
+    return std::chrono::duration_cast<sec>(_now - _elapsedLastCall).count();
 }
 
 int64_t Time::toMilliseconds() const {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(_now - _elapsedLastCall).count();
+    using millisec = std::chrono::milliseconds;
+    return std::chrono::duration_cast<millisec>(_now - _elapsedLastCall).count();
 }
 
 int64_t Time::toMicroseconds() const {
-    return std::chrono::duration_cast<std::chrono::microseconds>(_now - _elapsedLastCall).count();
+    using microsec = std::chrono::microseconds;
+    return std::chrono::duration_cast<microsec>(_now - _elapsedLastCall).count();
 }
 
 int64_t Time::toNanoseconds() const {
-    return std::chrono::duration_cast<std::chrono::nanoseconds>(_now - _elapsedLastCall).count();
+    using nanosec = std::chrono::nanoseconds;
+    return std::chrono::duration_cast<nanosec>(_now - _elapsedLastCall).count();
 }

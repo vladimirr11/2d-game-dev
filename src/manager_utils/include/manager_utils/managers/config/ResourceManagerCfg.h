@@ -7,7 +7,7 @@
 
 struct ResourceManagerConfig {
     ImageContainerConfig imageContainerCfg;
-    TextContainerCfg textContainerCfg;
+    TextContainerConfig textContainerCfg;
 };
 
 #endif  // !RESOURCEMANAGERCFG_H

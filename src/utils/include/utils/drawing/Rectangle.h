@@ -8,7 +8,6 @@
 struct Point;
 
 struct Rectangle {
-public:
     Rectangle() = default;
     Rectangle(int32_t inputX, int32_t inputY, int32_t inputWidth, int32_t inputHeight);
 

@@ -1,49 +1,49 @@
 // Corresponding header
 #include "manager_utils/drawing/Text.h"
-#include "manager_utils/managers/ResourceManager.h"
 
 // C++ system includes
 #include <iostream>
 
-Text::~Text() {
-    if (_isCreated && !_isDestroyed) {
-        destroy();
-    }
-}
+// Own includes
+#include "manager_utils/managers/ResourceManager.h"
 
-void Text::create(const std::string& text, int32_t fontId, const Color& color, const Point& pos) {
+Text::~Text() { destroy(); }
+
+void Text::create(const std::string& text, const int32_t fontId, const Color& color,
+                  const Point& pos) {
     if (_isCreated) {
-        std::cerr << "Error, text with fontId " << fontId << " was already created." << std::endl;
+        std::cerr << "Text::create() was called with fontId " << fontId
+                  << " that was already created." << std::endl;
         return;
     }
 
-    gResourceMgr->createText(text, color, fontId, _drawParams.rsrcId, _drawParams.width,
-                             _drawParams.height);
+    gResourceManager->createText(text, color, fontId, _drawParams.rsrcId, _drawParams.width,
+                                 _drawParams.height);
 
     _drawParams.frameRect.x = 0;
     _drawParams.frameRect.y = 0;
     _drawParams.frameRect.w = _drawParams.width;
     _drawParams.frameRect.h = _drawParams.height;
-
     _drawParams.pos = pos;
     _drawParams.widgetType = WidgetType::TEXT;
 
     _textContent = text;
     _color = color;
     _fontId = fontId;
-
     _isCreated = true;
-    _isDestroyed = false;
 }
 
 void Text::destroy() {
     if (!_isCreated) {
-        std::cerr << "Error, text was already destroyed!" << std::endl;
+        std::cerr << "Text::destroy() was called on text that was not created." << std::endl;
         return;
     }
 
     _isCreated = false;
-    _isDestroyed = true;
+
+    if (gResourceManager) {
+        gResourceManager->unloadText(_drawParams.textId);
+    }
 
     Widget::reset();
 }
@@ -54,8 +54,8 @@ void Text::setText(const std::string& text) {
     }
 
     _textContent = text;
-    gResourceMgr->createText(text, _color, _fontId, _drawParams.rsrcId, _drawParams.width,
-                             _drawParams.height);
+    gResourceManager->createText(text, _color, _fontId, _drawParams.rsrcId, _drawParams.width,
+                                 _drawParams.height);
 
     _drawParams.frameRect.w = _drawParams.width;
     _drawParams.frameRect.h = _drawParams.height;
@@ -67,8 +67,8 @@ void Text::setColor(const Color& color) {
     }
 
     _color = color;
-    gResourceMgr->createText(_textContent, color, _fontId, _drawParams.rsrcId, _drawParams.width,
-                             _drawParams.height);
+    gResourceManager->createText(_textContent, color, _fontId, _drawParams.rsrcId,
+                                 _drawParams.width, _drawParams.height);
 }
 
 std::string Text::getTextContent() const { return _textContent; }

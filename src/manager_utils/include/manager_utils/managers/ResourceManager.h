@@ -15,11 +15,11 @@ public:
 
     ResourceManager(const ResourceManager& other) = delete;
     ResourceManager(ResourceManager&& other) = delete;
-
     ResourceManager& operator=(const ResourceManager& other) = delete;
     ResourceManager& operator=(ResourceManager&& other) = delete;
 
-    int32_t init(const ResourceManagerConfig& darwMgrCfg);
+    int32_t init(const ResourceManagerConfig& resourceManagerfg);
+
     void deinit() final;
     void process() final;
 
@@ -28,6 +28,6 @@ private:
     TextContainer _textContainer;
 };
 
-extern ResourceManager* gResourceMgr;
+extern ResourceManager* gResourceManager;
 
 #endif  // !RESOURCEMANAGER_H

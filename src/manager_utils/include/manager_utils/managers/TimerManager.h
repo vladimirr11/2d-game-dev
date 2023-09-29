@@ -2,9 +2,10 @@
 #define TIMERMANAGER_H
 
 // C++ system includes
-#include <cstdint>
 #include <map>
 #include <set>
+
+// Third-party includes
 
 // Own includes
 #include "manager_utils/managers/ManagerBase.h"
@@ -14,8 +15,9 @@
 class TimerManager : public ManagerBase {
 public:
     int32_t init();
-    void deinit() final;
+
     void process() final;
+    void deinit() final;
 
     void startTimer(const int32_t timerId, const TimerData& tData);
     void stopTimer(int32_t timerId);
@@ -24,15 +26,17 @@ public:
 
     void onInitEnd();
 
+    size_t getActiveTimersCount() const;
+
 private:
     void removeTimersInternal();
 
-    void onTimerTimeout(int32_t timerId, TimerData& tData);
+    void onTimerTimeout(const int32_t timerId, TimerData& tData);
 
 private:
     Time _elapsedTime;
-    std::map<int32_t, TimerData> _timerMap;
-    std::set<int32_t> _removeTimerSet;
+    std::map<int32_t, TimerData> _timersMap;
+    std::set<int32_t> _removedTimersSet;
 };
 
 extern TimerManager* gTimerManager;

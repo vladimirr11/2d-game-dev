@@ -7,13 +7,11 @@ set(_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 add_library(
     ${PROJECT_NAME} STATIC
-
+        ${_INC_DIR}/manager_utils/debug/DebugConsole.h
         ${_INC_DIR}/manager_utils/drawing/Image.h
         ${_INC_DIR}/manager_utils/drawing/Text.h
         ${_INC_DIR}/manager_utils/drawing/Widget.h
-
         ${_INC_DIR}/manager_utils/input/ButtonBase.h
-
         ${_INC_DIR}/manager_utils/managers/config/DrawManagerCfg.h
         ${_INC_DIR}/manager_utils/managers/config/ManagerHandlerCfg.h
         ${_INC_DIR}/manager_utils/managers/config/ResourceManagerCfg.h
@@ -22,24 +20,19 @@ add_library(
         ${_INC_DIR}/manager_utils/managers/ManagerHandler.h
         ${_INC_DIR}/manager_utils/managers/ResourceManager.h
         ${_INC_DIR}/manager_utils/managers/TimerManager.h
-
         ${_INC_DIR}/manager_utils/timer/TimerClient.h
         ${_INC_DIR}/manager_utils/timer/TimerData.h
 
-
+        ${_SRC_DIR}/debug/DebugConsole.cpp
         ${_SRC_DIR}/drawing/Image.cpp
         ${_SRC_DIR}/drawing/Text.cpp
         ${_SRC_DIR}/drawing/Widget.cpp
-
         ${_SRC_DIR}/input/ButtonBase.cpp
-
         ${_SRC_DIR}/managers/DrawManager.cpp
         ${_SRC_DIR}/managers/ManagerHandler.cpp
         ${_SRC_DIR}/managers/ResourceManager.cpp
         ${_SRC_DIR}/managers/TimerManager.cpp
-        
         ${_SRC_DIR}/timer/TimerClient.cpp
-        ${_SRC_DIR}/timer/TimerData.cpp
 )
 
 set_target_cpp_standard(${PROJECT_NAME} 17)

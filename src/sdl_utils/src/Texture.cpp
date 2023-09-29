@@ -2,7 +2,6 @@
 #include "sdl_utils/Texture.h"
 
 // C++ system includes
-#include <cstdlib>
 #include <iostream>
 
 // Third-party includes
@@ -13,6 +12,7 @@
 
 // Own includes
 #include "utils/drawing/Color.h"
+#include "utils/error/HandleError.h"
 
 static SDL_Renderer* gRendererPtr = nullptr;
 
@@ -20,7 +20,8 @@ int32_t Texture::createSurfaceFromFile(const std::string& filePath, SDL_Surface*
     outSurfice = IMG_Load(filePath.c_str());
 
     if (outSurfice == nullptr) {
-        std::cerr << "IMG_Load() failed. Reason: " << SDL_GetError() << std::endl;
+        std::cerr << "In Texture::createSurfaceFromFile() - IMG_Load() failed. Reason: "
+                  << SDL_GetError() << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -29,17 +30,9 @@ int32_t Texture::createSurfaceFromFile(const std::string& filePath, SDL_Surface*
 
 int32_t Texture::createTextureFromFile(const std::string& filePath, SDL_Texture*& outSurface) {
     SDL_Surface* tempSurface = nullptr;
-    if (createSurfaceFromFile(filePath, tempSurface) != EXIT_SUCCESS) {
-        std::cerr << "Texture::createTextureFromFile() failed for filePath: " << filePath
-                  << std::endl;
-        return EXIT_FAILURE;
-    }
 
-    if (createTextureFromSurface(tempSurface, outSurface) != EXIT_SUCCESS) {
-        std::cerr << "Texture::createTextureFromFile() failed. Reason: " << SDL_GetError()
-                  << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(createSurfaceFromFile(filePath, tempSurface));
+    handleError(createTextureFromSurface(tempSurface, outSurface));
 
     return EXIT_SUCCESS;
 }
@@ -48,8 +41,9 @@ int32_t Texture::createTextureFromSurface(SDL_Surface*& surface, SDL_Texture*& o
     outTexture = SDL_CreateTextureFromSurface(gRendererPtr, surface);
 
     if (outTexture == nullptr) {
-        std::cerr << "Texture::createTextureFromSurface() failed. Reason: " << SDL_GetError()
-                  << std::endl;
+        std::cerr << "In Texture::createTextureFromSurface() - SDL_CreateTextureFromSurface() "
+                     "failed. Reason: "
+                  << SDL_GetError() << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -65,17 +59,16 @@ int32_t Texture::createTextureFromText(const std::string& text, const Color& col
 
     SDL_Surface* textSurface = TTF_RenderText_Blended(font, text.c_str(), *sdlColor);
     if (textSurface == nullptr) {
-        std::cerr << "TTF_RenderText_Blended() failed. Reason: " << SDL_GetError() << std::endl;
+        std::cerr
+            << "In Texture::createTextureFromText() - TTF_RenderText_Blended() failed. Reason: "
+            << SDL_GetError() << std::endl;
         return EXIT_FAILURE;
     }
 
     outTextWidth = textSurface->w;
     outTextHeight = textSurface->h;
 
-    if (Texture::createTextureFromSurface(textSurface, outTexture) != EXIT_SUCCESS) {
-        std::cerr << "Texture::createTextureFromSurface() failed for text: " << text << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(Texture::createTextureFromSurface(textSurface, outTexture));
 
     return EXIT_SUCCESS;
 }
@@ -96,25 +89,19 @@ void Texture::freeTexture(SDL_Texture*& outTexture) {
 
 void Texture::setRenderer(SDL_Renderer* renderer) { gRendererPtr = renderer; }
 
-int32_t Texture::setBlendModeTexture(SDL_Texture* texture, BlendMode blendMode) {
-    if (SDL_SetTextureBlendMode(texture, static_cast<SDL_BlendMode>(blendMode)) != EXIT_SUCCESS) {
-        std::cerr << "SDL_SetTextureBlendMode() failed. Reason: " << SDL_GetError() << std::endl;
-        return EXIT_FAILURE;
-    }
-
+int32_t Texture::setTextureBlendMode(SDL_Texture* texture, const BlendMode blendMode) {
+    handleError(SDL_SetTextureBlendMode(texture, static_cast<SDL_BlendMode>(blendMode)));
     return EXIT_SUCCESS;
 }
 
-int32_t Texture::setAlphaTexture(SDL_Texture* texture, int32_t alpha) {
+int32_t Texture::setTextureAlpha(SDL_Texture* texture, const int32_t alpha) {
     if (ZERO_OPACITY > alpha || FULL_OPACITY > alpha) {
-        std::cerr << "Invalid alpha value: " << alpha << " provided!" << std::endl;
+        std::cerr << "In Texture::setTextureAlpha() invalid alpha value: " << alpha << " provided."
+                  << std::endl;
         return EXIT_FAILURE;
     }
 
-    if (SDL_SetTextureAlphaMod(texture, static_cast<uint8_t>(alpha)) != EXIT_SUCCESS) {
-        std::cerr << "SDL_SetTextureAlphaMod() failed. Reason: " << SDL_GetError() << std::endl;
-        return EXIT_FAILURE;
-    }
+    handleError(SDL_SetTextureAlphaMod(texture, static_cast<uint8_t>(alpha)));
 
     return EXIT_SUCCESS;
 }

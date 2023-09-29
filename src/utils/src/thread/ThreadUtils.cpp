@@ -4,6 +4,6 @@
 // C++ system includes
 #include <thread>
 
-void Threading::sleepFor(int64_t microseconds) {
+void Threading::sleepFor(const int64_t microseconds) {
     std::this_thread::sleep_for(std::chrono::microseconds(microseconds));
 }

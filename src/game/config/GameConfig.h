@@ -9,6 +9,8 @@ struct GameConfig {
     int32_t blackPiecesId;
     int32_t chessBoardId;
     int32_t targetId;
+    int32_t moveTilesResourceId;
+    int32_t unfinishedPieceFontId;
     int32_t blinkTargetTimerId;
 };
 

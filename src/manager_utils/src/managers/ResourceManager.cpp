@@ -6,20 +6,13 @@
 
 // Own includes
 #include "manager_utils/managers/config/ResourceManagerCfg.h"
+#include "utils/error/HandleError.h"
 
-ResourceManager* gResourceMgr = nullptr;
+ResourceManager* gResourceManager = nullptr;
 
-int32_t ResourceManager::init(const ResourceManagerConfig& drawMgrCfg) {
-    if (ImageContainer::init(drawMgrCfg.imageContainerCfg) != EXIT_SUCCESS) {
-        std::cerr << "ImageContainer::init() failed." << std::endl;
-        return EXIT_FAILURE;
-    }
-
-    if (TextContainer::init(drawMgrCfg.textContainerCfg) != EXIT_SUCCESS) {
-        std::cerr << "TextContainer::init() failed." << std::endl;
-        return EXIT_FAILURE;
-    }
-
+int32_t ResourceManager::init(const ResourceManagerConfig& resourceMgrCfg) {
+    handleError(ImageContainer::init(resourceMgrCfg.imageContainerCfg));
+    handleError(TextContainer::init(resourceMgrCfg.textContainerCfg));
     return EXIT_SUCCESS;
 }
 

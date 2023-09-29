@@ -4,12 +4,6 @@
 // C++ system headers
 #include <cstdint>
 
-/** User provided EventDataTypes enum is created in order not to include
- *  the SDL_event.h header.
- *  The EventDataTypes enum can be extended at any time with certain event
- *  if it's needed. (Not all SDL_events are listed here)
- * */
-
 namespace EventType {
 enum EventDataTypes {
     UNKNOWN = 0,  // SDL_FIRSTEVENT,

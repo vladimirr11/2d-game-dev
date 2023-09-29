@@ -6,13 +6,13 @@
 #include <string>
 #include <unordered_map>
 
-struct FontCfg {
+struct FontConfig {
     std::string location;
     int32_t fontSize = 0;
 };
 
-struct TextContainerCfg {
-    std::unordered_map<int32_t, FontCfg> textConfigs;
+struct TextContainerConfig {
+    std::unordered_map<int32_t, FontConfig> textConfigs;
 };
 
 #endif  // !TEXTCONTAINERCFG_H

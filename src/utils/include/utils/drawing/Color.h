@@ -11,7 +11,8 @@ struct RGBA {
     uint8_t a{255};
 };
 
-struct Color {
+class Color {
+public:
     Color(const uint8_t red, const uint8_t green, const uint8_t blue, const uint8_t alpha = 255);
 
     Color() = delete;

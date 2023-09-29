@@ -1,8 +1,5 @@
-// Corresponding header
+// Corresponding headers
 #include "utils/drawing/Point.h"
-
-// C++ system includes
-#include <cstdlib>
 
 const Point Point::ZERO(0, 0);
 const Point Point::UNDEFINED(10000, 10000);

@@ -12,6 +12,7 @@ add_library(
         ${_INC_DIR}/utils/drawing/DrawParams.h
         ${_INC_DIR}/utils/drawing/Point.h
         ${_INC_DIR}/utils/drawing/Rectangle.h
+        ${_INC_DIR}/utils/error/HandleError.h
         ${_INC_DIR}/utils/input/EventDefines.h
         ${_INC_DIR}/utils/thread/ThreadUtils.h
         ${_INC_DIR}/utils/time/Time.h

@@ -6,8 +6,8 @@
 
 struct Threading {
     Threading() = delete;
-
-    static void sleepFor(int64_t microseconds);
+    
+    static void sleepFor(const int64_t microseconds);
 };
 
 #endif  // !THREADUTILS_H

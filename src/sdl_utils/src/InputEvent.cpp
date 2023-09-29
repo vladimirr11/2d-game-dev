@@ -1,4 +1,4 @@
-// Corresponding header
+// Corresponding headers
 #include "sdl_utils/InputEvent.h"
 
 // C++ system includes
@@ -11,8 +11,9 @@
 int32_t InputEvent::init() {
     _sdlEvent = new SDL_Event();
     memset(_sdlEvent, 0, sizeof(SDL_Event));
+
     if (!_sdlEvent) {
-        std::cerr << "SDL_Event failed to alloc memory!" << std::endl;
+        std::cerr << "In InputEvent::init() - SDL_Event() failed to allocate memory." << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -33,10 +34,11 @@ bool InputEvent::pollEvent() {
 
     SDL_GetMouseState(&pointPos.x, &pointPos.y);
     setEventTypeInternal();
+
     return true;
 }
 
-bool InputEvent::checkForExitRequest() const {
+bool InputEvent::checkForExit() const {
     return (_sdlEvent->type == EventType::QUIT) ||
            (typeTouchEvent == TouchEvent::KEYBOARD_PRESS && key == Keyboard::KEY_ESCAPE);
 }

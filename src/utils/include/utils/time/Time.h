@@ -14,8 +14,9 @@ public:
     int64_t toNanoseconds() const;
 
 private:
-    std::chrono::time_point<std::chrono::steady_clock> _now = std::chrono::steady_clock::now();
-    std::chrono::time_point<std::chrono::steady_clock> _elapsedLastCall;
+    using SteadyClockTimePoint = std::chrono::time_point<std::chrono::steady_clock>;
+    SteadyClockTimePoint _now = std::chrono::steady_clock::now();
+    SteadyClockTimePoint _elapsedLastCall;
 };
 
 #endif  // !TIME_H

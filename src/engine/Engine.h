@@ -5,6 +5,7 @@
 #include "game/Game.h"
 #include "sdl_utils/InputEvent.h"
 #include "manager_utils/managers/ManagerHandler.h"
+#include "manager_utils/debug/DebugConsole.h"
 
 // Forward declarations
 struct EngineConfig;
@@ -20,12 +21,13 @@ private:
     void drawFrame();
     bool processFrame();
     void handleEvent();
-    void limitFPS(int64_t microsecondsToSleepFor);
+    void limitFPS(const int64_t microsecToSleepFor);
 
 private:
     ManagerHandler _managerHandler;
     InputEvent _event;
     Game _game;
+    DebugConsole _debugConsole;
 };
 
 #endif  // !ENGINE_H

@@ -19,6 +19,7 @@ public:
 
     void lockInput();
     void unlockInput();
+
     bool isInputUnlocked() const;
 
     bool containsEvent(const InputEvent& event);

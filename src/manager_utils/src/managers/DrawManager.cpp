@@ -8,19 +8,15 @@
 #include "manager_utils/managers/config/DrawManagerCfg.h"
 #include "manager_utils/managers/ResourceManager.h"
 #include "utils/drawing/DrawParams.h"
+#include "utils/error/HandleError.h"
 
-DrawManager* gDrawMgr = nullptr;
+DrawManager* gDrawManager = nullptr;
 
-int32_t DrawManager::init(const DrawManagerConfig& drawMgrCfg) {
-    if (_window.init(drawMgrCfg.windowConfig) != EXIT_SUCCESS) {
-        std::cerr << "MinitorWindow::init() failed." << std::endl;
-        return EXIT_FAILURE;
-    }
+int32_t DrawManager::init(const DrawManagerConfig& drawManagerCfg) {
+    handleError(_window.init(drawManagerCfg.windowConfig));
+    handleError(_renderer.init(_window.getWindow()));
 
-    if (_renderer.init(_window.getWindow()) != EXIT_SUCCESS) {
-        std::cerr << "Renderer::init() failed." << std::endl;
-        return EXIT_FAILURE;
-    }
+    _maxFrames = drawManagerCfg.maxFrameRate;
 
     return EXIT_SUCCESS;
 }
@@ -36,17 +32,17 @@ void DrawManager::clearScreen() { _renderer.clearScreen(); }
 
 void DrawManager::finishFrame() { _renderer.finishFrame(); }
 
-void DrawManager::addDrawCmd(const DrawParams& drawParams) {
+void DrawManager::addDrawCommand(const DrawParams& drawParams) {
     SDL_Texture* texture = getTextureInternal(drawParams);
     _renderer.renderTexture(texture, drawParams);
 }
 
-void DrawManager::setWidgetBlendMode(const DrawParams& drawParams, BlendMode blendMode) {
+void DrawManager::setWidgetBlendMode(const DrawParams& drawParams, const BlendMode blendMode) {
     SDL_Texture* texture = getTextureInternal(drawParams);
     _renderer.setWidgetBlendMode(texture, blendMode);
 }
 
-void DrawManager::setWidgetOpacity(const DrawParams& drawParams, int32_t opacity) {
+void DrawManager::setWidgetOpacity(const DrawParams& drawParams, const int32_t opacity) {
     if (drawParams.widgetType == WidgetType::IMAGE) {
         return;
     }
@@ -57,14 +53,16 @@ void DrawManager::setWidgetOpacity(const DrawParams& drawParams, int32_t opacity
 
 SDL_Texture* DrawManager::getTextureInternal(const DrawParams& drawParams) const {
     if (drawParams.widgetType == WidgetType::TEXT) {
-        return gResourceMgr->getTextTexture(drawParams.rsrcId);
+        return gResourceManager->getTextTexture(drawParams.rsrcId);
     } else if (drawParams.widgetType == WidgetType::IMAGE) {
-        return gResourceMgr->getImageTexture(drawParams.rsrcId);
+        return gResourceManager->getImageTexture(drawParams.rsrcId);
     } else {
-        std::cerr << "Error, recieved unsupported WidgetType in Engine::drawFrame(): "
+        std::cerr << "In DrawManager::getTextureInternal() recieved unsupported WidgetType - "
                   << static_cast<int32_t>(drawParams.widgetType) << " for resourceId - "
                   << drawParams.rsrcId << std::endl;
     }
 
     return nullptr;
 }
+
+int64_t DrawManager::getMaxFrameRate() const { return _maxFrames; }
