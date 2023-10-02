@@ -14,12 +14,12 @@
 static constexpr auto STARTING_PIECES_COUNT = 16;
 static constexpr auto PAWNS_COUNT = 8;
 
-static std::unique_ptr<ChessPiece> createPiece(PieceType pieceType) {
+static std::unique_ptr<ChessPiece> createPiece(PieceType pieceType, GameProxy* gameProxy) {
     switch (pieceType) {
     case PieceType::ROOK:
         return std::make_unique<Rook>();
     case PieceType::PAWN:
-        return std::make_unique<Pawn>();
+        return std::make_unique<Pawn>(gameProxy);
     case PieceType::KING:
     case PieceType::QUEEN:
     case PieceType::BISHOP:
@@ -35,7 +35,7 @@ static std::unique_ptr<ChessPiece> createPiece(PieceType pieceType) {
     return nullptr;
 }
 
-static int32_t populateWhitePieces(const int32_t whitePiecesResourceId,
+static int32_t populateWhitePieces(GameProxy* gameProxy, const int32_t whitePiecesResourceId,
                                    const int32_t unfinishedPieceFontId,
                                    ChessPiece::PlayerPiecesVec& whitePieces) {
     whitePieces.reserve(STARTING_PIECES_COUNT);
@@ -48,7 +48,7 @@ static int32_t populateWhitePieces(const int32_t whitePiecesResourceId,
     pieceCfg.unfinishedPieceFontId = unfinishedPieceFontId;
 
     for (auto i = 0; i < PAWNS_COUNT; i++) {
-        whitePieces.push_back(createPiece(pieceCfg.pieceType));
+        whitePieces.push_back(createPiece(pieceCfg.pieceType, gameProxy));
         pieceCfg.boardPos.boardCol = i;
         handleError(whitePieces[i]->init(pieceCfg));
     }
@@ -61,14 +61,15 @@ static int32_t populateWhitePieces(const int32_t whitePiecesResourceId,
     for (auto i = PAWNS_COUNT; i < STARTING_PIECES_COUNT; i++) {
         pieceCfg.boardPos.boardCol = i - PAWNS_COUNT;
         pieceCfg.pieceType = nonPawnPieces[i - PAWNS_COUNT];
-        whitePieces.push_back(createPiece(pieceCfg.pieceType));
+        whitePieces.push_back(createPiece(pieceCfg.pieceType, gameProxy));
         handleError(whitePieces[i]->init(pieceCfg));
     }
 
     return EXIT_SUCCESS;
 }
 
-static int32_t populateBlackPieces(int32_t blackPiecesResourceId, int32_t unfinishedPieceFontId,
+static int32_t populateBlackPieces(GameProxy* gameProxy, int32_t blackPiecesResourceId,
+                                   int32_t unfinishedPieceFontId,
                                    ChessPiece::PlayerPiecesVec& blackPieces) {
     blackPieces.reserve(STARTING_PIECES_COUNT);
 
@@ -80,7 +81,7 @@ static int32_t populateBlackPieces(int32_t blackPiecesResourceId, int32_t unfini
     pieceCfg.unfinishedPieceFontId = unfinishedPieceFontId;
 
     for (int32_t i = 0; i < PAWNS_COUNT; i++) {
-        blackPieces.push_back(createPiece(pieceCfg.pieceType));
+        blackPieces.push_back(createPiece(pieceCfg.pieceType, gameProxy));
 
         pieceCfg.boardPos.boardCol = i;
         handleError(blackPieces[i]->init(pieceCfg));
@@ -95,7 +96,7 @@ static int32_t populateBlackPieces(int32_t blackPiecesResourceId, int32_t unfini
         pieceCfg.boardPos.boardCol = i - PAWNS_COUNT;
         pieceCfg.pieceType = nonPawnPieces[i - PAWNS_COUNT];
 
-        blackPieces.push_back(createPiece(pieceCfg.pieceType));
+        blackPieces.push_back(createPiece(pieceCfg.pieceType, gameProxy));
         handleError(blackPieces[i]->init(pieceCfg));
     }
 
@@ -103,14 +104,16 @@ static int32_t populateBlackPieces(int32_t blackPiecesResourceId, int32_t unfini
 }
 
 int32_t PieceHandlerPopulator::populate(
-    const int32_t whitePiecesResId, const int32_t blackPiecesResId,
+    GameProxy* gameProxy, const int32_t whitePiecesResId, const int32_t blackPiecesResId,
     const int32_t unfinishedPieceFontId,
     std::array<ChessPiece::PlayerPiecesVec, PLAYERS_COUNT>& outPiecesArr) {
     ChessPiece::PlayerPiecesVec& whitePieces = outPiecesArr[WHITE_PLAYER_ID];
-    handleError(populateWhitePieces(whitePiecesResId, unfinishedPieceFontId, whitePieces));
+    handleError(
+        populateWhitePieces(gameProxy, whitePiecesResId, unfinishedPieceFontId, whitePieces));
 
     ChessPiece::PlayerPiecesVec& blackPieces = outPiecesArr[BLACK_PLAYER_ID];
-    handleError(populateBlackPieces(blackPiecesResId, unfinishedPieceFontId, blackPieces));
+    handleError(
+        populateBlackPieces(gameProxy, blackPiecesResId, unfinishedPieceFontId, blackPieces));
 
     return EXIT_SUCCESS;
 }

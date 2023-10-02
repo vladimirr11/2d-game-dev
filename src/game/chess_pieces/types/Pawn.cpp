@@ -6,6 +6,9 @@
 
 // Own includes
 #include "game/utility/BoardUtils.h"
+#include "game/proxies/GameProxy.h"
+
+Pawn::Pawn(GameProxy* gameProxy) : _gameProxy(gameProxy) {}
 
 std::vector<TileData> Pawn::getMoveTiles(const PlayersActivePieces& activePieces) const {
     if (_playerId == WHITE_PLAYER_ID) {
@@ -13,6 +16,15 @@ std::vector<TileData> Pawn::getMoveTiles(const PlayersActivePieces& activePieces
     }
 
     return getBlackPlayerMoveTiles(activePieces);
+}
+
+void Pawn::setBoardPos(const BoardPosition& boardPos) {
+    ChessPiece::setBoardPos(boardPos);
+
+    if (_playerId == WHITE_PLAYER_ID && _boardPos.boardRow == WHITE_PLAYER_END_PAWN_ROW)
+        _gameProxy->onPawnPromotion();
+    else if (_playerId == BLACK_PLAYER_ID && _boardPos.boardRow == BLACK_PLAYER_END_PAWN_ROW)
+        _gameProxy->onPawnPromotion();
 }
 
 std::unordered_map<Direction, MoveDirectionVec> Pawn::getWhitePlayerBoardMoves() const {

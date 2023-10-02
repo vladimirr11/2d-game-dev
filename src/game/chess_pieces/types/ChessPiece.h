@@ -47,6 +47,8 @@ public:
 
     int32_t getPlayerId() const;
 
+    void setWidgetFlipType(WidgetFlip flipType);
+
 protected:
     Image _pieceImg;
     BoardPosition _boardPos;

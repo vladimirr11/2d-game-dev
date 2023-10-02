@@ -17,12 +17,14 @@ public:
 
     virtual void draw();
 
+    void destroy();
+
     void lockInput();
     void unlockInput();
 
     bool isInputUnlocked() const;
 
-    bool containsEvent(const InputEvent& event);
+    bool containsEvent(const InputEvent& event) const;
 
 private:
     bool _isInputUnlocked = true;

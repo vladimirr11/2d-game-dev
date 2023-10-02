@@ -43,3 +43,7 @@ void ChessPiece::setBoardPos(const BoardPosition& boardPos) {
 }
 
 int32_t ChessPiece::getPlayerId() const { return _playerId; }
+
+void ChessPiece::setWidgetFlipType(WidgetFlip flipType) {
+    _pieceImg.setFlipType(flipType);
+}

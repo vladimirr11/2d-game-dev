@@ -13,9 +13,17 @@ int32_t Game::init(const GameConfig& gameCfg) {
     handleError(_chessBoard.init(gameCfg.chessBoardId, gameCfg.targetId,
                                  gameCfg.moveTilesResourceId, gameCfg.blinkTargetTimerId));
 
-    handleError(_pieceHandler.init(static_cast<GameBoardProxy*>(&_chessBoard),
+    handleError(_pieceHandler.init(static_cast<GameBoardProxy*>(&_chessBoard), this,
                                    gameCfg.whitePiecesId, gameCfg.blackPiecesId,
                                    gameCfg.unfinishedPieceFontId));
+
+    handleError(_piecePromotionPanel.init(gameCfg.piecePromotionPanelConfig, this));
+
+    handleError(_gameBoardAnimator.init(this, &_chessBoard.getChessBoardImage()));
+
+    handleError(_inputInverter.init(gameCfg.piecePromotionPanelConfig.gameBoardWidth,
+                                    gameCfg.piecePromotionPanelConfig.gameBoardHeight));
+
     return EXIT_SUCCESS;
 }
 
@@ -24,6 +32,36 @@ void Game::deinit() {}
 void Game::draw() {
     _chessBoard.draw();
     _pieceHandler.draw();
+    _piecePromotionPanel.draw();
 }
 
-void Game::handleEvent(const InputEvent& event) { _pieceHandler.handleEvent(event); }
+void Game::handleEvent(InputEvent& event) {
+    _inputInverter.invertEvent(event);
+    
+    if (_piecePromotionPanel.isActive()) {
+        _piecePromotionPanel.handleEvent(event);
+        return;
+    }
+
+    _pieceHandler.handleEvent(event);
+}
+
+void Game::onGameTurnFinished() {
+    _gameBoardAnimator.startAnim(_gameLogic.getActivePlayerId());
+    _gameLogic.finishTurn();
+    _pieceHandler.setCurrentPlayerId(_gameLogic.getActivePlayerId());
+}
+
+void Game::onPawnPromotion() { _piecePromotionPanel.activate(_gameLogic.getActivePlayerId()); }
+
+void Game::promotePieceType(PieceType pieceType) {
+    std::cout << "Recieved piece promotion for piece type " << static_cast<int32_t>(pieceType)
+              << std::endl;
+
+    // TODO finish implementation of promotePiece()
+    _pieceHandler.promotePiece(pieceType);
+}
+
+void Game::setWidgetFlipType([[maybe_unused]] WidgetFlip flipType) {
+    _inputInverter.setBoardFlipType(flipType);
+}

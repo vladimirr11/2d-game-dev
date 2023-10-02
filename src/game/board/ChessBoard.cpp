@@ -33,6 +33,8 @@ void ChessBoard::draw() {
     _moveSelector.draw();
 }
 
+Image& ChessBoard::getChessBoardImage() { return _chessBoardImage; }
+
 void ChessBoard::onPieceSelected(const BoardPosition& boardPos,
                                  const std::vector<TileData>& moveTiles) {
     _currMoveTiles = moveTiles;

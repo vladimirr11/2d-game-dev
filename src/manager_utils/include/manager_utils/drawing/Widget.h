@@ -50,6 +50,8 @@ public:
 
     bool isVisible() const;
 
+    bool isCreated() const;
+
 protected:
     DrawParams _drawParams;
     bool _isCreated = false;

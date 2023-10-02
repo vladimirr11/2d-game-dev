@@ -19,6 +19,8 @@ public:
     
     void draw();
 
+    Image& getChessBoardImage();
+
 private:
     // GameBoardProxy
     void onPieceSelected(const BoardPosition& boardPos,

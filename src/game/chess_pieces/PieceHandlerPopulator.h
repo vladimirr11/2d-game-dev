@@ -5,14 +5,17 @@
 #include "game/chess_defines/ChessDefines.h"
 #include "game/chess_pieces/types/ChessPiece.h"
 
+// Forward declarations
+struct GameProxy;
+
 class PieceHandlerPopulator {
 public:
     PieceHandlerPopulator() = delete;
 
     ~PieceHandlerPopulator() = default;
 
-    static int32_t populate(const int32_t whitePiecesResId, const int32_t blackPiecesResId,
-                            const int32_t unfinishedPieceFontId,
+    static int32_t populate(GameProxy* gameProxy, const int32_t whitePiecesResId,
+                            const int32_t blackPiecesResId, const int32_t unfinishedPieceFontId,
                             std::array<ChessPiece::PlayerPiecesVec, PLAYERS_COUNT>& outPiecesArr);
 };
 

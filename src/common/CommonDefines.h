@@ -5,7 +5,7 @@
 #include <cstdint>
 
 namespace TextureId {
-enum ResourceId { CHESS_BOARD, TARGET, WHITE_PIECES, BLACK_PIECES, MOVE_TILES };
+enum ResourceId { CHESS_BOARD, TARGET, WHITE_PIECES, BLACK_PIECES, MOVE_TILES, PROMOTION_BUTTON };
 }  // namespace TextureId
 
 namespace FontId {

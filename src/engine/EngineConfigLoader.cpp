@@ -20,12 +20,15 @@ constexpr int32_t CHESS_BOARD_WIDTH = 900;
 constexpr int32_t CHESS_BOARD_HEIGHT = 900;
 constexpr int32_t CHESS_PIECES_FRAMES = 6;
 constexpr int32_t CHESS_PIECES_WIDTH = 96;
-constexpr int32_t CHEES_PIECES_HEIGHT = 96;
+constexpr int32_t CHESS_PIECES_HEIGHT = 96;
 constexpr int32_t TARGET_IMAGE_WIDTH = 98;
 constexpr int32_t TARGET_IMAGE_HEIGHT = 98;
 constexpr int32_t MOVE_TILES_FRAMES = 3;
 constexpr int32_t MOVE_TILES_IMAGE_WIDTH = 98;
 constexpr int32_t MOVE_TILES_IMAGE_HEIGHT = 98;
+constexpr int32_t PROMOTION_BUTTON_FRAMES = 2;
+constexpr int32_t PROMOTION_BUTTON_WIDTH = 104;
+constexpr int32_t PROMOTION_BUTTON_HEIGHT = 104;
 constexpr int32_t ANGELINE_VINTAGE_FONT_SIZE = 40;
 constexpr int32_t MAX_FRAME_RATE = 30;
 }  // namespace
@@ -54,7 +57,7 @@ static void populateImageContainerConfig(ImageContainerConfig& imageContainerCfg
             imgCfg.frames.emplace_back(j * CHESS_PIECES_WIDTH,  // x
                                        0,                       // y
                                        CHESS_PIECES_WIDTH,      // w
-                                       CHEES_PIECES_HEIGHT);    // h
+                                       CHESS_PIECES_HEIGHT);    // h
         }
 
         imageContainerCfg.imageConfigs.emplace(chessTypePiecesResIds[i], imgCfg);
@@ -79,6 +82,16 @@ static void populateImageContainerConfig(ImageContainerConfig& imageContainerCfg
                                    MOVE_TILES_IMAGE_HEIGHT);    // h
     }
     imageContainerCfg.imageConfigs.emplace(TextureId::ResourceId::MOVE_TILES, imgCfg);
+    imgCfg.frames.clear();
+
+    imgCfg.location = "resources/sprites/piecePromoteButtonBgr.png";
+    for (int32_t i = 0; i < PROMOTION_BUTTON_FRAMES; i++) {
+        imgCfg.frames.emplace_back(i * PROMOTION_BUTTON_WIDTH,  // x
+                                   0,                           // y
+                                   PROMOTION_BUTTON_WIDTH,      // w
+                                   PROMOTION_BUTTON_HEIGHT);    // h
+    }
+    imageContainerCfg.imageConfigs.emplace(TextureId::ResourceId::PROMOTION_BUTTON, imgCfg);
     imgCfg.frames.clear();
 }
 
@@ -105,13 +118,24 @@ static void populateManagerHandlerConfig(ManagerHandlerConfig& managerHandlerCfg
 }
 
 static void populateGameConfig(GameConfig& gameCfg) {
-    gameCfg.whitePiecesId = TextureId::ResourceId::WHITE_PIECES;
-    gameCfg.blackPiecesId = TextureId::ResourceId::BLACK_PIECES;
-    gameCfg.chessBoardId = TextureId::ResourceId::CHESS_BOARD;
-    gameCfg.targetId = TextureId::ResourceId::TARGET;
-    gameCfg.moveTilesResourceId = TextureId::ResourceId::MOVE_TILES;
+    gameCfg.whitePiecesId = TextureId::WHITE_PIECES;
+    gameCfg.blackPiecesId = TextureId::BLACK_PIECES;
+    gameCfg.chessBoardId = TextureId::CHESS_BOARD;
+    gameCfg.targetId = TextureId::TARGET;
+    gameCfg.moveTilesResourceId = TextureId::MOVE_TILES;
     gameCfg.unfinishedPieceFontId = FontId::FontIdKeys::ANGELINE_VINTAGE;
     gameCfg.blinkTargetTimerId = TimerId::Keys::BLINK_TARGET_TIMER_ID;
+
+    auto& panelCfg = gameCfg.piecePromotionPanelConfig;
+    panelCfg.whitePiecesResId = TextureId::WHITE_PIECES;
+    panelCfg.blackPiecesResId = TextureId::BLACK_PIECES;
+    panelCfg.buttonBackgrResId = TextureId::PROMOTION_BUTTON;
+    panelCfg.gameBoardWidth = CHESS_BOARD_WIDTH;
+    panelCfg.gameBoardHeight = CHESS_BOARD_HEIGHT;
+    panelCfg.buttonBackgrWidth = PROMOTION_BUTTON_WIDTH;
+    panelCfg.buttonBackgrHeight = PROMOTION_BUTTON_HEIGHT;
+    panelCfg.buttonWidth = CHESS_PIECES_WIDTH;
+    panelCfg.buttonHeight = CHESS_PIECES_HEIGHT;
 }
 
 EngineConfig EngineConfigLoader::loadConfig() {

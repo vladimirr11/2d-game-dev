@@ -4,7 +4,11 @@
 // C++ system includes
 #include <cstdint>
 
+// Own includes
+#include "game/panels/config/PiecePromotionPanelCfg.h"
+
 struct GameConfig {
+    PiecePromotionPanelConfig piecePromotionPanelConfig;
     int32_t whitePiecesId;
     int32_t blackPiecesId;
     int32_t chessBoardId;
