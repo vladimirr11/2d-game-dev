@@ -19,11 +19,6 @@ int32_t Game::init(const GameConfig& gameCfg) {
 
     handleError(_piecePromotionPanel.init(gameCfg.piecePromotionPanelConfig, this));
 
-    handleError(_gameBoardAnimator.init(this, &_chessBoard.getChessBoardImage()));
-
-    handleError(_inputInverter.init(gameCfg.piecePromotionPanelConfig.gameBoardWidth,
-                                    gameCfg.piecePromotionPanelConfig.gameBoardHeight));
-
     return EXIT_SUCCESS;
 }
 
@@ -36,8 +31,6 @@ void Game::draw() {
 }
 
 void Game::handleEvent(InputEvent& event) {
-    _inputInverter.invertEvent(event);
-    
     if (_piecePromotionPanel.isActive()) {
         _piecePromotionPanel.handleEvent(event);
         return;
@@ -47,7 +40,6 @@ void Game::handleEvent(InputEvent& event) {
 }
 
 void Game::onGameTurnFinished() {
-    _gameBoardAnimator.startAnim(_gameLogic.getActivePlayerId());
     _gameLogic.finishTurn();
     _pieceHandler.setCurrentPlayerId(_gameLogic.getActivePlayerId());
 }
@@ -62,6 +54,6 @@ void Game::promotePieceType(PieceType pieceType) {
     _pieceHandler.promotePiece(pieceType);
 }
 
-void Game::setWidgetFlipType([[maybe_unused]] WidgetFlip flipType) {
-    _inputInverter.setBoardFlipType(flipType);
-}
+// void Game::setWidgetFlipType([[maybe_unused]] WidgetFlip flipType) {
+//     // _inputInverter.setBoardFlipType(flipType);
+// }

@@ -9,7 +9,6 @@ public:
     GameLogic();
 
     int32_t getActivePlayerId() const;
-    
     void finishTurn();
 
 private:

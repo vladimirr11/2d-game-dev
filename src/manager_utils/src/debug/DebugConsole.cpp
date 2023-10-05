@@ -17,6 +17,9 @@ int32_t DebugConsole::init(const int64_t maxFrames, const int32_t fontId) {
     textPos.y += 40;
     _debugConsoleTexts[ACTIVE_TIMER_IDX].create("0", fontId, Colors::GREEN, textPos);
 
+    textPos.y += 40;
+    _debugConsoleTexts[ACTIVE_WIDGETS_IDX].create("0", fontId, Colors::GREEN, textPos);
+
     return EXIT_SUCCESS;
 }
 
@@ -52,6 +55,12 @@ void DebugConsole::draw() {
     for (int32_t i = 0; i < DEBUG_TEXTS_COUNTS; i++) {
         _debugConsoleTexts[i].draw();
     }
+}
+
+void DebugConsole::updateActiveWidgets(const int32_t activeWidgets) {
+    std::string textContent = "Active Widgets: ";
+    textContent.append(std::to_string(activeWidgets));
+    _debugConsoleTexts[ACTIVE_WIDGETS_IDX].setText(textContent);
 }
 
 bool DebugConsole::isActive() const { return _isActive; }

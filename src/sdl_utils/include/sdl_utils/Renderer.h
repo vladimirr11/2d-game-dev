@@ -27,6 +27,8 @@ public:
     void setWidgetBlendMode(SDL_Texture* texture, BlendMode blendMode);
     void setWidgetOpacity(SDL_Texture* texture, int32_t opacity);
 
+    int32_t getActiveWidgets() const;
+
 private:
     void drawImage(const DrawParams& drawParams, SDL_Texture* texture);
     void drawText(const DrawParams& drawParams, SDL_Texture* texture);
@@ -34,6 +36,7 @@ private:
 
 private:
     SDL_Renderer* _sdlRenderer = nullptr;
+    int32_t _activeWidgets{};
 };
 
 #endif  // !RENDERER_H

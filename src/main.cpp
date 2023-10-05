@@ -9,7 +9,7 @@
 #include "engine/Engine.h"
 #include "engine/EngineConfigLoader.h"
 
-static int32_t runApplication() {
+static int32_t runEngine() {
     Engine engine;
 
     handleError(engine.init(EngineConfigLoader::loadConfig()));
@@ -24,11 +24,9 @@ static int32_t runApplication() {
 int32_t main([[maybe_unused]] int32_t argc, [[maybe_unused]] char* argv[]) {
     handleError(SDLLoader::init());
 
-    handleError(runApplication());
+    handleError(runEngine());
 
     SDLLoader::deinit();
-
-    std::cout << "Finished without errors!" << std::endl;
 
     return EXIT_SUCCESS;
 }

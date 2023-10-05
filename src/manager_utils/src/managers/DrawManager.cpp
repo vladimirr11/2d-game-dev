@@ -66,3 +66,5 @@ SDL_Texture* DrawManager::getTextureInternal(const DrawParams& drawParams) const
 }
 
 int64_t DrawManager::getMaxFrameRate() const { return _maxFrames; }
+
+int32_t DrawManager::getActiveWidgets() const { return _renderer.getActiveWidgets(); }

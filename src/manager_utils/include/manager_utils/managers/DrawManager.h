@@ -34,6 +34,8 @@ public:
 
     int64_t getMaxFrameRate() const;
 
+    int32_t getActiveWidgets() const;
+
 private:
     SDL_Texture* getTextureInternal(const DrawParams& drawParams) const;
 

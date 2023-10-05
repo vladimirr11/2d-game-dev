@@ -7,7 +7,7 @@
 // Forward declarations
 class InputEvent;
 
-enum DebugTextIds { FPS_TEXT_IDX, ACTIVE_TIMER_IDX, DEBUG_TEXTS_COUNTS };
+enum DebugTextIds { FPS_TEXT_IDX, ACTIVE_TIMER_IDX, ACTIVE_WIDGETS_IDX, DEBUG_TEXTS_COUNTS };
 
 class DebugConsole {
 public:
@@ -15,6 +15,7 @@ public:
     void handleEvent(const InputEvent& event);
     void update(const int64_t elapsedMicroseconds, const size_t activeTimers);
     void draw();
+    void updateActiveWidgets(const int32_t activeWidgets);
     bool isActive() const;
 
 private:

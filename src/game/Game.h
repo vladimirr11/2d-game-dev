@@ -4,12 +4,10 @@
 // Own includes
 #include "game/config/GameConfig.h"
 #include "game/board/ChessBoard.h"
-#include "game/board/GameBoardAnimator.h"
 #include "game/chess_pieces/types/ChessPiece.h"
 #include "game/chess_pieces/PieceHandler.h"
 #include "manager_utils/drawing/Image.h"
 #include "game/logic/GameLogic.h"
-#include "game/logic/InputInverter.h"
 #include "game/proxies/GameProxy.h"
 #include "game/panels/PiecePromotionPanel.h"
 
@@ -27,15 +25,13 @@ private:
     void onGameTurnFinished() final;
     void onPawnPromotion() final;
     void promotePieceType(PieceType pieceType) final;
-    void setWidgetFlipType(WidgetFlip flipType) final;
+    // void setWidgetFlipType(WidgetFlip flipType) final;
 
 private:
     ChessBoard _chessBoard;
     PieceHandler _pieceHandler;
     GameLogic _gameLogic;
     PiecePromotionPanel _piecePromotionPanel;
-    GameBoardAnimator _gameBoardAnimator;
-    InputInverter _inputInverter;
 };
 
 #endif  // !GAME_H

@@ -55,8 +55,10 @@ void Renderer::clearScreen() {
 void Renderer::renderTexture(SDL_Texture* texture, const DrawParams& drawParams) {
     if (drawParams.widgetType == WidgetType::IMAGE) {
         drawImage(drawParams, texture);
+        ++_activeWidgets;
     } else if (drawParams.widgetType == WidgetType::TEXT) {
         drawText(drawParams, texture);
+        ++_activeWidgets;
     } else {
         std::cerr << "In Renderer::renderTexture() recieved unsupported WidgetType: "
                   << static_cast<int32_t>(drawParams.widgetType) << " for resourceId - "
@@ -64,7 +66,10 @@ void Renderer::renderTexture(SDL_Texture* texture, const DrawParams& drawParams)
     }
 }
 
-void Renderer::finishFrame() { SDL_RenderPresent(_sdlRenderer); }
+void Renderer::finishFrame() {
+    SDL_RenderPresent(_sdlRenderer);
+    _activeWidgets = 0;
+}
 
 void Renderer::setWidgetBlendMode(SDL_Texture* texture, BlendMode blendMode) {
     if (Texture::setTextureBlendMode(texture, blendMode) != EXIT_SUCCESS) {
@@ -79,6 +84,8 @@ void Renderer::setWidgetOpacity(SDL_Texture* texture, int32_t opacity) {
                   << std::endl;
     }
 }
+
+int32_t Renderer::getActiveWidgets() const { return _activeWidgets; }
 
 void Renderer::drawImage(const DrawParams& drawParams, SDL_Texture* texture) {
     if (drawParams.opacity == FULL_OPACITY) {
