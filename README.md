@@ -1,1 +1,1 @@
-# Yet Another 2D Game Engine
+#  Just Yet Another 2D Game Engine
